@@ -9,10 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->json('product_ids'); // Array of product IDs
+            $table->json('quantities'); // Quantity of each product ID
+            $table->json('delivery_info'); // JSON for delivery information
+            $table->decimal('price', 10, 2); // Price/amount
+            $table->decimal('tax', 10, 2); // Tax amount
+            $table->string('payment_type');
+            $table->string('recipient_name');
+            $table->string('recipient_phone');
+            $table->string('recipient_email');
+            $table->string('status');
             $table->timestamps();
         });
     }
