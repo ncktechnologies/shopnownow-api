@@ -37,3 +37,17 @@ Route::post('/orders', 'OrderController@store'); // Create an order
 Route::get('/orders/{order}', 'OrderController@show'); // Get order details
 Route::put('/orders/{order}', 'OrderController@update'); // Update order
 Route::delete('/orders/{order}', 'OrderController@destroy'); // Delete order
+
+// Payment Routes
+Route::post('/payment', 'PaymentController@process'); // Process a payment
+
+// Admin Routes
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/users', 'AdminController@users'); // Get all users
+    Route::get('/orders', 'AdminController@orders'); // Get all orders
+    // Add more admin routes as needed
+});
+
+// Authentication Routes
+Route::post('/register', 'AuthController@register'); // Register a new user
+Route::post('/login', 'AuthController@login'); // Login a user
