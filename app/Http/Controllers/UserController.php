@@ -31,6 +31,12 @@ class UserController extends Controller
         return response()->json(['user' => $user]);
     }
 
+    public function profile(Request $request)
+    {
+        // Return the user's details as a JSON response
+        return response()->json(['user' => $request->user()]);
+    }
+
     public function update(Request $request, User $user)
     {
         // Validate the incoming request data
