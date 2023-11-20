@@ -20,7 +20,9 @@ return new class extends Migration
             $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
             $table->decimal('discount_value', 8, 2)->nullable();
             $table->string('thumbnail')->nullable();
-            $table->boolean('hidden')->default(false); // Add the hidden column
+            $table->boolean('hidden')->default(false);
+            $table->unsignedBigInteger('band_id'); // Add the band_id column
+            $table->foreign('band_id')->references('id')->on('bands'); // Add the foreign key constraint
             $table->timestamps();
         });
     }

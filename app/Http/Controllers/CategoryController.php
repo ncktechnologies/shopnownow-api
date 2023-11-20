@@ -23,6 +23,7 @@ class CategoryController extends Controller
             'discount_type' => 'nullable|in:percentage,fixed',
             'discount_value' => 'nullable|numeric',
             'thumbnail' => 'nullable|image',
+            'band_id' => 'required|exists:bands,id', // Add this line
         ]);
 
         $data = $request->all();
@@ -31,7 +32,6 @@ class CategoryController extends Controller
             $path = $request->file('thumbnail')->store('thumbnails', 'public');
             $data['thumbnail'] = asset($path);
         }
-
 
         $category = Category::create($data);
 
@@ -48,6 +48,7 @@ class CategoryController extends Controller
             'discount_type' => 'nullable|in:percentage,fixed',
             'discount_value' => 'nullable|numeric',
             'thumbnail' => 'nullable|image',
+            'band_id' => 'required|exists:bands,id', // Add this line
         ]);
 
         $data = $request->all();

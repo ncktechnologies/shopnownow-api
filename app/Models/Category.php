@@ -17,6 +17,7 @@ class Category extends Model
         'discount_type',
         'discount_value',
         'thumbnail',
-        'hidden', // Add this line
+        'hidden',
+        'band_id', // Add this line
     ];
 }
