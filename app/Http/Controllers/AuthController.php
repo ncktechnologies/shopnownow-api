@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Otp;
+use Illuminate\Support\Facades\Mail;
 
 
 class AuthController extends Controller
@@ -15,7 +16,8 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:55',
             'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'phone_number' => 'required', // Add this line if you want to send an OTP to the user's phone number
         ]);
 
         $validatedData['password'] = bcrypt($request->password);
@@ -23,6 +25,15 @@ class AuthController extends Controller
         $user = User::create($validatedData);
 
         $accessToken = $user->createToken('authToken')->accessToken;
+
+        // Generate a random 6-digit OTP
+        $otp = rand(100000, 999999);
+
+        // Send the OTP to the user's email
+        Mail::raw("Your OTP is: $otp", function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('OTP for registration');
+        });
 
         return response([ 'user' => $user, 'access_token' => $accessToken]);
     }
@@ -115,6 +126,11 @@ class AuthController extends Controller
 
         if ($otp && $otp->otp == $validatedData['otp']) {
             $otp->delete(); // delete the OTP after successful verification
+
+            // Update the email_verified_at and verified columns
+            $user->email_verified_at = now();
+            $user->verified = true;
+            $user->save();
 
             return response(['message' => 'OTP verified']);
         } else {

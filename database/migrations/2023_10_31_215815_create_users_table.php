@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->decimal('wallet', 8, 2)->default(0); // Add the wallet column
             $table->integer('loyalty_points')->default(0); // Add the loyalty_points column
+            $table->boolean('verified')->default(false); // Add the verified column
             $table->rememberToken();
             $table->timestamps();
         });
