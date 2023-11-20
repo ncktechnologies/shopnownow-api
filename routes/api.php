@@ -26,45 +26,275 @@ Route::get('/', function () {
 //Authentification Routes including forgot password and verify otp
 //create a user group function
 Route::prefix('user')->group( function () {
-    Route::post('/register', 'AuthController@register');
-    Route::post('/login', 'AuthController@login');
-    Route::post('/forgot_password', 'AuthController@forgot_password');
-    Route::post('/resend_otp', 'AuthController@resend_otp');
-    Route::post('/verify_otp', 'AuthController@verify_otp');
-    Route::post('/reset_password', 'AuthController@reset_password');
-    Route::post('/logout', 'AuthController@logout');
+    Route::prefix('auth')->group( function () {
+        Route::post('/register', 'AuthController@register');
+        Route::post('/login', 'AuthController@login');
+        Route::post('/forgot_password', 'AuthController@forgot_password');
+        Route::post('/resend_otp', 'AuthController@resend_otp');
+        Route::post('/verify_otp', 'AuthController@verify_otp');
+        Route::post('/reset_password', 'AuthController@reset_password');
+        Route::post('/logout', 'AuthController@logout');
+    });
 
 
     Route::middleware(['auth:user'])->group(
         function () {
-            Route::get('/profile', 'UserController@profile');
-            Route::post('/change_password', 'UserController@change_password');
+            Route::prefix('profile')->group(function () {
+                Route::get('show', 'UserController@profile');
+                Route::post('change_password', 'UserController@change_password');
+            });
+
+            Route::prefix('orders')->group(function () {
+                Route::post('/orders', 'OrderController@store'); // Create an order
+                Route::get('/orders/{order}', 'OrderController@show'); // Get order details
+                Route::put('/orders/{order}', 'OrderController@update'); // Update order
+                Route::delete('/orders/{order}', 'OrderController@destroy'); // Delete order
+            });
+
+        });
+
+    Route::prefix('shopping_list')->group(function () {
+        // Shopping List Routes
+        Route::post('/create_shopping_list', 'ShoppingListController@create');
+        Route::post('/place_order/{list_id}', 'OrderController@place');
+    });
+
+
+    Route::prefix('payment')->group(function () {
+        // Payment Routes
+        Route::post('/process', 'PaymentController@process'); // Process a payment
+        Route::get('/payment/{payment}', 'PaymentController@show'); // Get payment details
+        Route::put('/payment/{payment}', 'PaymentController@update'); // Update payment
+        Route::delete('/payments/{payment}', 'PaymentController@destroy'); // Delete payment
+    });
+});
+
+
+
+Route::prefix('admin')->group(function () {
+
+    Route::prefix('auth')->group(function (){
+        Route::post('/signup', 'AdminController@signup');
+        Route::post('/login', 'AdminController@login');
+        Route::post('/logout', 'AdminController@logout');
+        Route::post('/forgot_password', 'AdminController@forgot_password');
+
+    });
+
+
+
+});
+{
+    "info": {
+        "_postman_id": "YOUR_POSTMAN_ID",
+        "name": "Shopnownow API",
+        "description": "API endpoints for Shopnownow application",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User Routes",
+            "item": [
+                {
+                    "name": "Create a user",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get user details",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/{user}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "{user}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update user",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/{user}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "{user}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete user",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/{user}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "{user}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Payment Routes",
+            "item": [
+                {
+                    "name": "Process a payment",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/payment",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "payment"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Admin Routes",
+            "item": [
+                {
+                    "name": "Get all users",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/users",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get all orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/orders",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "orders"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Authentication Routes",
+            "item": [
+                {
+                    "name": "Register a new user",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login a user",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
         }
-    );
-
-});
-
-Route::prefix('orders')->group(function () {
-    // Order Routes
-    Route::post('/orders', 'OrderController@store'); // Create an order
-    Route::get('/orders/{order}', 'OrderController@show'); // Get order details
-    Route::put('/orders/{order}', 'OrderController@update'); // Update order
-    Route::delete('/orders/{order}', 'OrderController@destroy'); // Delete order
-});
-
-Route::prefix('payment')->group(function () {
-    // Payment Routes
-    Route::post('/process', 'PaymentController@process'); // Process a payment
-    Route::get('/payment/{payment}', 'PaymentController@show'); // Get payment details
-    Route::put('/payment/{payment}', 'PaymentController@update'); // Update payment
-    Route::delete('/payments/{payment}', 'PaymentController@destroy'); // Delete payment
-});
+    ]
+}
 
 
-//A prefix for authenticated user with get profile and change password (for only authenticated user)
 
-Route::post('/create_shopping_list', 'ShoppingListController@create');
-Route::post('/place_order/{list_id}', 'OrderController@place');
 
 
 // User Routes
