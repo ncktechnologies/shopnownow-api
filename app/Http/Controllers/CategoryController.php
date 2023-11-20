@@ -21,6 +21,7 @@ class CategoryController extends Controller
             'delivery_option' => 'required|boolean',
             'discount_option' => 'required|boolean',
             'discount_type' => 'nullable|in:percentage,fixed',
+            'discount_value' => 'nullable|numeric',
             'thumbnail' => 'nullable|string',
         ]);
 

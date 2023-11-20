@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('delivery_option');
             $table->boolean('discount_option');
             $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
+            $table->decimal('discount_value', 8, 2)->nullable(); // Add the discount_value column
             $table->string('thumbnail')->nullable();
             $table->timestamps();
         });
