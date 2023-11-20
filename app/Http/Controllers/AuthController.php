@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Otp;
 
 
 class AuthController extends Controller
@@ -87,8 +88,10 @@ class AuthController extends Controller
 
         $otp = rand(100000, 999999);
 
-        $user->otp = $otp;
-        $user->save();
+        Otp::create([
+            'user_id' => $user->id,
+            'otp' => $otp,
+        ]);
 
         //send otp to user email
 
@@ -108,9 +111,10 @@ class AuthController extends Controller
             return response(['message' => 'User not found']);
         }
 
-        if ($user->otp == $validatedData['otp']) {
-            $user->otp_verified = true;
-            $user->save();
+        $otp = Otp::where('user_id', $user->id)->latest()->first();
+
+        if ($otp && $otp->otp == $validatedData['otp']) {
+            $otp->delete(); // delete the OTP after successful verification
 
             return response(['message' => 'OTP verified']);
         } else {
