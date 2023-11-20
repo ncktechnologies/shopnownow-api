@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BandController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,7 +76,17 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', [AdminController::class, 'logout']);
             Route::post('/forgot_password', [AdminController::class, 'forgot_password']);
         });
-    });
+
+        Route::prefix('band')->group(function () { // Band routes
+            Route::get('/list', [BandController::class, 'index']); // Get all bands
+            Route::post('/create', [BandController::class, 'create']); // Create a band
+            Route::get('show/{band}', [BandController::class, 'show']); // Get band details
+            Route::put('update/{band}', [BandController::class, 'update']); // Update band
+            Route::post('hide/{band}', [BandController::class, 'hide']); // Delete band
+        });
+
+        });
+
 
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);
@@ -92,7 +103,10 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-});
+
+    });
+
+
 
 
 
