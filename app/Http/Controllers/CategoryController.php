@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
     public function hide(Category $category)
     {
-        $category->update(['hidden' => true]);
+        $category->update(['hidden' => !$category->hidden]);
 
         return response()->json($category);
     }

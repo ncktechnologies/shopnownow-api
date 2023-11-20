@@ -17,5 +17,6 @@ class Category extends Model
         'discount_type',
         'discount_value',
         'thumbnail',
+        'hidden', // Add this line
     ];
 }
