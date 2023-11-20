@@ -85,6 +85,14 @@ Route::prefix('v1')->group(function () {
             Route::post('hide/{band}', [BandController::class, 'hide']); // Delete band
         });
 
+        Route::prefix('category')->group(function () { // Category routes
+            Route::get('/list', [CategoryController::class, 'index']); // Get all categories
+            Route::post('/create', [CategoryController::class, 'create']); // Create a category
+            Route::get('show/{category}', [CategoryController::class, 'show']); // Get category details
+            Route::put('update/{category}', [CategoryController::class, 'update']); // Update category
+            Route::post('hide/{category}', [CategoryController::class, 'hide']); // Hide category
+        });
+
         });
 
 
