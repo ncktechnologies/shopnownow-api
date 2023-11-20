@@ -22,17 +22,18 @@ class CategoryController extends Controller
             'discount_option' => 'required|boolean',
             'discount_type' => 'nullable|in:percentage,fixed',
             'discount_value' => 'nullable|numeric',
-            'thumbnail' => 'nullable|string',
+            'thumbnail' => 'nullable|image',
         ]);
 
-        $category = Category::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('thumbnail')) {
+            $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
+        $category = Category::create($data);
 
         return response()->json($category, 201);
-    }
-
-    public function show(Category $category)
-    {
-        return response()->json($category);
     }
 
     public function update(Request $request, Category $category)
@@ -43,11 +44,23 @@ class CategoryController extends Controller
             'delivery_option' => 'required|boolean',
             'discount_option' => 'required|boolean',
             'discount_type' => 'nullable|in:percentage,fixed',
-            'thumbnail' => 'nullable|string',
+            'discount_value' => 'nullable|numeric',
+            'thumbnail' => 'nullable|image',
         ]);
 
-        $category->update($request->all());
+        $data = $request->all();
 
+        if ($request->hasFile('thumbnail')) {
+            $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
+        $category->update($data);
+
+        return response()->json($category);
+    }
+
+    public function show(Category $category)
+    {
         return response()->json($category);
     }
 
