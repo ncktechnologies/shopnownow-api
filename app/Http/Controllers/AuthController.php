@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         return response(['message' => 'OTP sent to your email']);
     }
-    
+
     public function reset_password(Request $request)
     {
         $validatedData = $request->validate([
@@ -139,8 +139,10 @@ class AuthController extends Controller
         $user = User::where('email', $loginData['email'])->first();
 
 
-        $accessToken = $user->createToken('authToken')->accessToken;
+        // $accessToken = $user->createToken('authToken')->accessToken;
+        $token = $user->createToken('authToken')->plainTextToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+
+        return response(['user' => auth()->user(), 'access_token' => $token]);
     }
 }
