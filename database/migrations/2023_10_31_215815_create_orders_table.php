@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->json('product_ids'); // Array of product IDs
             $table->json('quantities'); // Quantity of each product ID
-            $table->json('delivery_info'); // JSON for delivery information
+            $table->string('delivery_info'); // JSON for delivery information
             $table->decimal('price', 10, 2); // Price/amount
             $table->decimal('tax', 10, 2); // Tax amount
             $table->string('payment_type');
