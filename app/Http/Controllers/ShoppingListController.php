@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShoppingList;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class ShoppingListController extends Controller
@@ -44,6 +45,41 @@ class ShoppingListController extends Controller
             return response()->json(['message' => 'Shopping list created successfully', 'shopping list' => $shoppingList], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while creating the shopping list', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function place($list_id)
+    {
+        try {
+            $shoppingList = ShoppingList::findOrFail($list_id);
+            // Assuming you have an Order model and it has a relationship with ShoppingList
+            $order = new Order();
+            $order->shopping_list_id = $shoppingList->id;
+            $order->save();
+
+            return response()->json(['message' => 'Order placed successfully', 'order' => $order], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while placing the order', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function show($list_id)
+    {
+        try {
+            $shoppingList = ShoppingList::findOrFail($list_id);
+            return response()->json(['message' => 'Shopping list retrieved successfully', 'shopping list' => $shoppingList], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the shopping list', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function index()
+    {
+        try {
+            $shoppingLists = ShoppingList::all();
+            return response()->json(['message' => 'Shopping lists retrieved successfully', 'shopping lists' => $shoppingLists], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the shopping lists', 'error' => $e->getMessage()], 500);
         }
     }
 
