@@ -7,10 +7,29 @@ use App\Models\Payment;
 
 class PaymentController extends Controller
 {
-    public function process(Request $request)
+    public function confirmPayment(Request $request)
     {
-        // Implement your payment processing logic here
-        return response()->json(['message' => 'Payment processed successfully']);
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'user_id' => 'required|integer',
+                'amount' => 'required|numeric',
+                'status' => 'required|string',
+                'order_id' => 'required|string',
+                'reference' => 'required|string',
+                'payment_type' => 'required|string',
+                'payment_gateway' => 'required|string',
+                'payment_gateway_reference' => 'required|string',
+            ]);
+
+            // Create a new payment
+            $payment = Payment::create($validatedData);
+
+            // You may choose to send a response with the newly created payment's data
+            return response()->json(['message' => 'Payment confirmed successfully', 'payment' => $payment], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while confirming the payment', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function show(Payment $payment)

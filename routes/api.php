@@ -52,9 +52,9 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('orders')->group(function () {
                 Route::post('/orders', [OrderController::class, 'store']); // Create an order
-                Route::get('/orders/{order}', [OrderController::class, 'show']); // Get order details
-                Route::put('/orders/{order}', [OrderController::class, 'update']); // Update order
-                Route::delete('/orders/{order}', [OrderController::class, 'destroy']); // Delete order
+                Route::get('/order/{order}', [OrderController::class, 'show']); // Get order details
+                Route::put('/update/{order}', [OrderController::class, 'update']); // Update order
+                Route::delete('/delete/{order}', [OrderController::class, 'destroy']); // Delete order
             });
 
             Route::prefix('shopping_list')->group(function () {
@@ -83,7 +83,7 @@ Route::prefix('v1')->group(function () {
 
 
         Route::prefix('payment')->group(function () {
-            Route::post('/process', [PaymentController::class, 'process']);
+            Route::post('/process', [PaymentController::class, 'confirmPayment']);
             Route::get('/payment/{payment}', [PaymentController::class, 'show']);
             Route::put('/payment/{payment}', [PaymentController::class, 'update']);
             Route::delete('/payments/{payment}', [PaymentController::class, 'destroy']);
