@@ -141,6 +141,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('delete/{coupon}', [CouponController::class, 'destroy']); // Delete coupon
         });
 
+        Route::apiResource('delivery-locations', DeliveryLocationController::class);
 
         });
 
