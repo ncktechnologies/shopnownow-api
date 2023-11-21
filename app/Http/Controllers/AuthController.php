@@ -24,18 +24,24 @@ class AuthController extends Controller
 
         $user = User::create($validatedData);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
+        // $accessToken = $user->createToken('authToken')->accessToken;
+        $token = $user->createToken('authToken')->plainTextToken;
+
 
         // Generate a random 6-digit OTP
         $otp = rand(100000, 999999);
 
+        Otp::create([
+            'user_id' => $user->id,
+            'otp' => $otp,
+        ]);
         // Send the OTP to the user's email
         Mail::raw("Your OTP is: $otp", function ($message) use ($user) {
             $message->to($user->email);
             $message->subject('OTP for registration');
         });
 
-        return response([ 'user' => $user, 'access_token' => $accessToken]);
+        return response([ 'user' => $user, 'access_token' => $token]);
     }
 
     public function forgot_password(Request $request)
