@@ -66,4 +66,38 @@ class CouponController extends Controller
             return response()->json(['message' => 'An error occurred while loading the coupons', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function show(Coupon $coupon)
+    {
+        return response()->json(['coupon' => $coupon], 200);
+    }
+
+    public function update(Request $request, Coupon $coupon)
+    {
+        $validatedData = $request->validate([
+            'code' => 'string|unique:coupons,code,' . $coupon->id,
+            'type' => 'string|in:amount,percentage',
+            'value' => 'numeric',
+            'start_date' => 'date',
+            'end_date' => 'date|after_or_equal:start_date',
+        ]);
+
+        $coupon->update($validatedData);
+
+        return response()->json(['message' => 'Coupon updated successfully', 'coupon' => $coupon], 200);
+    }
+
+    public function hide(Coupon $coupon)
+    {
+        $coupon->update(['hidden' => true]);
+
+        return response()->json(['message' => 'Coupon hidden successfully'], 200);
+    }
+
+    public function destroy(Coupon $coupon)
+    {
+        $coupon->delete();
+
+        return response()->json(['message' => 'Coupon deleted successfully'], 200);
+    }
 }
