@@ -135,9 +135,9 @@ Route::prefix('v1')->group(function () {
         Route::prefix('coupons')->group(function () {
             Route::get('/list', [CouponController::class, 'list']); // Get all coupons
             Route::post('/create', [CouponController::class, 'create']); // Create a coupon
-            Route::get('show/{coupon}', [CouponController::class, 'show']); // Get coupon details
-            Route::put('update/{coupon}', [CouponController::class, 'update']); // Update coupon
-            Route::post('hide/{coupon}', [CouponController::class, 'hide']); // Hide coupon
+            Route::get('/show', [CouponController::class, 'show']); // Get coupon details
+            Route::put('/update', [CouponController::class, 'update']); // Update coupon
+            Route::post('/hide', [CouponController::class, 'hide']); // Hide coupon
             Route::delete('delete/{coupon}', [CouponController::class, 'destroy']); // Delete coupon
         });
 
