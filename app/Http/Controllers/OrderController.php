@@ -19,6 +19,15 @@ class OrderController extends Controller
             'status' => 'required|string',
         ]);
 
+        // Extract product IDs and quantities from the products array
+        $products = collect($validatedData['products']);
+        $productIds = $products->pluck('id');
+        $quantities = $products->pluck('quantity');
+
+        // Add product IDs and quantities to the validated data
+        $validatedData['product_ids'] = json_encode($productIds);
+        $validatedData['quantities'] = json_encode($quantities);
+
         // Create a new order
         $order = Order::create($validatedData);
 
