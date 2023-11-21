@@ -31,7 +31,14 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'unit_of_measurement' => 'required',
             'category_id' => 'required|exists:categories,id',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $thumbnailPath = $thumbnail->store('thumbnails', 'public');
+            $validatedData['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+        }
 
         $product = Product::create($validatedData);
         return response()->json($product, 201);
