@@ -7,7 +7,7 @@ use App\Models\Admin;
 
 class AdminController extends Controller
 {
-    public function admins()
+    public function admin()
     {
         $admins = Admin::all();
         return response()->json($admins);
@@ -25,6 +25,20 @@ class AdminController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
         $admin = Admin::create($validatedData);
         return response()->json($admin, 201);
+    }
+
+    public function login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (!$token = auth('admin')->attempt($validatedData)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
     }
 
 }
