@@ -14,6 +14,8 @@ class ShoppingListController extends Controller
             // Get the authenticated user using Laravel's authentication
             $user = auth()->user();
 
+            $finalData = [];
+
             // Validate the incoming request data
             $validatedData = $request->validate([
                 'products.*.id' => 'required|integer',
@@ -26,19 +28,19 @@ class ShoppingListController extends Controller
             $quantities = $products->pluck('quantity');
 
             // Add product IDs and quantities to the validated data
-            $validatedData['product_ids'] = json_encode($productIds);
-            $validatedData['quantities'] = json_encode($quantities);
+            $finalData['product_ids'] = json_encode($productIds);
+            $finalData['quantities'] = json_encode($quantities);
 
             // Associate the user ID with the shopping list
-            $validatedData['user_id'] = $user->id;
+            $finalData['user_id'] = $user->id;
 
             // Create a new shopping list
-            $shoppingList = ShoppingList::create($validatedData);
+            $shoppingList = ShoppingList::create($finalData);
 
             // You may choose to send a response with the newly created shopping list's data
             return response()->json(['message' => 'Shopping list created successfully', 'shopping list' => $shoppingList], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => $shoppingList, 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => $finalData, 'error' => $e->getMessage()], 500);
         }
     }
 
