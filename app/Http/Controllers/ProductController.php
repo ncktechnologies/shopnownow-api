@@ -56,6 +56,17 @@ class ProductController extends Controller
             return response()->json(['message' => 'An error occurred while retrieving the product', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function search($query)
+    {
+        try {
+            $products = Product::where('name', 'LIKE', "%{$query}%")->get();
+            return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the products', 'error' => $e->getMessage()], 500);
+        }
+    }
+    
     /**
      * Show the form for editing the specified resource.
      */
