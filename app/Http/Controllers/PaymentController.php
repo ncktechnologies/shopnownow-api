@@ -27,7 +27,7 @@ class PaymentController extends Controller
             $payment = Payment::create($validatedData);
 
             // Find the order and update its status
-            $order = Order::where('order_id', $validatedData['order_id'])->first();
+            $order = Order::where('id', $validatedData['order_id'])->first();
             if ($order) {
                 $order->status = 'paid';
                 $order->save();
