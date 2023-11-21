@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'email' => 'required|unique:admin',
+            'email' => 'required|unique:admins',
             'password' => 'required',
             'role' => 'required',
         ]);
