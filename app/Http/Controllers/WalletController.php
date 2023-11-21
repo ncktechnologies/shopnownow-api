@@ -94,6 +94,40 @@ class WalletController extends Controller
         }
     }
 
+    public function convertPoints()
+    {
+        try {
+            // Get the authenticated user
+            $user = Auth::user();
+
+            // Check if the user has any points
+            if ($user->loyalty_points <= 0) {
+                return response()->json(['message' => 'No points to convert'], 400);
+            }
+
+            // Convert all points to cash
+            $amount = $user->loyalty_points;
+
+            // Update the user's balance and reset points
+            $user->wallet += $amount;
+            $user->loyalty_points = 0;
+            $user->save();
+
+            // Create a new transaction
+            $transaction = new Transaction([
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'type' => 'credit',
+                'message' => 'Converted ' . $user->loyalty_points . ' points to cash',
+            ]);
+            $transaction->save();
+
+            return response()->json(['message' => 'Points converted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while converting points', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     public function transactionHistory()
     {
         try {

@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('/withdraw_funds', [WalletController::class, 'withdrawFunds']);
                 Route::get('/transactions', [WalletController::class, 'transactionHistory']);
                 Route::get('/transactions/{transaction}', [WalletController::class, 'transactionDetails']);
+                Route::post('/convert_points', [WalletController::class, 'convertPoints']);
             });
         });
 
