@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -83,15 +84,23 @@ Route::prefix('v1')->group(function () {
         });
 
 
+        Route::prefix('coupons')->group(function(){
+            Route::get('/list', [CouponController::class, 'index']); // Get all coupons
+            Route::get('load/{coupon}', [CouponController::class, 'loadCoupon']); // Get coupon details
+
+        });
+
+
         Route::prefix('payment')->group(function () {
             Route::post('/process', [PaymentController::class, 'confirmPayment']);
-            Route::get('/payment/{payment}', [PaymentController::class, 'show']);
+            Route::get('/payment/{payment}', [PaymentController::class, 'loadPayment']);
             Route::put('/payment/{payment}', [PaymentController::class, 'update']);
             Route::delete('/payments/{payment}', [PaymentController::class, 'destroy']);
         });
     });
 
     Route::prefix('admin')->group(function () {
+
         Route::prefix('auth')->group(function () {
             Route::post('/signup', [AdminController::class, 'signup']);
             Route::post('/login', [AdminController::class, 'login']);
@@ -122,6 +131,12 @@ Route::prefix('v1')->group(function () {
             Route::put('update/{product}', [ProductController::class, 'update']); // Update product
             Route::post('hide/{product}', [ProductController::class, 'hide']); // Hide product
 
+        });
+
+        Route::prefix('coupons')->group(function () {
+            Route::get('/list', [CouponController::class, 'index']); // Get all coupons
+            Route::post('/create', [CouponController::class, 'create']); // Create a coupon
+            Route::get('show/{coupon}', [CouponController::class, 'show']); // Get coupon details
         });
 
 

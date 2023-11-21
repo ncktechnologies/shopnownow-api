@@ -40,9 +40,21 @@ class PaymentController extends Controller
         }
     }
 
-    public function show(Payment $payment)
-    {
-        // Return the payment's details as a JSON response
-        return response()->json(['payment' => $payment]);
+public function loadPayment($id)
+{
+    try {
+        // Find the payment by its ID
+        $payment = Payment::find($id);
+
+        // Check if the payment exists
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found'], 404);
+        }
+
+        // Return the payment data
+        return response()->json(['payment' => $payment], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'An error occurred while loading the payment', 'error' => $e->getMessage()], 500);
     }
+}
 }
