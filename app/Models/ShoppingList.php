@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ShoppingList extends Model
 {
     use HasFactory;
-    //add fillable products and quantities to the model
-    protected $fillable = ['products'];
+
+    // Add fillable products and quantities to the model
+    protected $fillable = ['product_ids', 'quantities'];
+
+    // Cast the product_ids and quantities to arrays
+    protected $casts = [
+        'product_ids' => 'array',
+        'quantities' => 'array',
+    ];
 }
