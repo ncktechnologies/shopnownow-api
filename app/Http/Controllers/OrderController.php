@@ -16,6 +16,7 @@ class OrderController extends Controller
             'products.*.id' => 'required|integer',
             'products.*.quantity' => 'required|integer',
             'price' => 'required|numeric',
+            'tax' => 'numeric',
             'status' => 'required|string',
             'delivery_info'=> 'required|string',
             'payment_type'=> 'required|string',
