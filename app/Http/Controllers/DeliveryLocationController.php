@@ -27,12 +27,13 @@ class DeliveryLocationController extends Controller
         return response()->json(['message' => 'Location created successfully', 'location' => $location], 201);
     }
 
-    public function show(DeliveryLocation $location)
+    public function show($id)
     {
+        $location = DeliveryLocation::findOrFail($id);
         return response()->json(['location' => $location], 200);
     }
 
-    public function update(Request $request, DeliveryLocation $location)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'band_id' => 'integer|exists:bands,id',
@@ -41,12 +42,14 @@ class DeliveryLocationController extends Controller
             'hidden' => 'boolean',
         ]);
 
+        $location = DeliveryLocation::findOrFail($id);
         $location->update($validatedData);
         return response()->json(['message' => 'Location updated successfully', 'location' => $location], 200);
     }
 
-    public function destroy(DeliveryLocation $location)
+    public function destroy($id)
     {
+        $location = DeliveryLocation::findOrFail($id);
         $location->delete();
         return response()->json(['message' => 'Location deleted successfully'], 200);
     }
