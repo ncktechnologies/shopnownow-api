@@ -7,6 +7,11 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        // Return all orders as a JSON response
+        return response()->json(['orders' => Order::all()]);
+    }
     //add order functions for process, show, update and destroy
     public function store(Request $request)
     {
