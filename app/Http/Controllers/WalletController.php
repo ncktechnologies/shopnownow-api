@@ -61,7 +61,7 @@ class WalletController extends Controller
         }
 
         // Update the user's balance
-        $user->balance -= $request->amount;
+        $user->wallet -= $request->amount;
         $user->save();
 
         // Create a new transaction
