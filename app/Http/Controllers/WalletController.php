@@ -118,7 +118,7 @@ class WalletController extends Controller
                 'user_id' => $user->id,
                 'amount' => $amount,
                 'type' => 'credit',
-                'message' => 'Converted ' . $user->loyalty_points . ' points to cash',
+                'message' => 'Converted ' . $amount . ' points to cash',
             ]);
             $transaction->save();
 

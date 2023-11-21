@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('delivery_info'); // JSON for delivery information
             $table->decimal('price', 10, 2); // Price/amount
             $table->decimal('tax', 10, 2); // Tax amount
+            $table->string('order_id'); // Order ID (e.g. #0000001
             $table->string('payment_type');
             $table->string('recipient_name');
             $table->string('recipient_phone');

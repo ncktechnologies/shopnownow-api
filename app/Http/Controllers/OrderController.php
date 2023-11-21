@@ -22,7 +22,6 @@ class OrderController extends Controller
             'recipient_name'=> 'required|string',
             'recipient_phone'=> 'required|string',
             'recipient_email'=> 'required|string',
-
         ]);
 
         // Extract product IDs and quantities from the products array
@@ -33,6 +32,11 @@ class OrderController extends Controller
         // Add product IDs and quantities to the validated data
         $validatedData['product_ids'] = json_encode($productIds);
         $validatedData['quantities'] = json_encode($quantities);
+
+        // Generate an order ID
+        $lastOrder = Order::orderBy('created_at', 'desc')->first();
+        $orderId = $lastOrder ? $lastOrder->id + 1 : 1;
+        $validatedData['order_id'] = '#' . str_pad($orderId, 7, '0', STR_PAD_LEFT);
 
         // Create a new order
         $order = Order::create($validatedData);
