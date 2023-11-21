@@ -15,14 +15,14 @@ class OrderController extends Controller
             'user_id' => 'required|integer',
             'products.*.id' => 'required|integer',
             'products.*.quantity' => 'required|integer',
-            'amount' => 'required|numeric',
+            'price' => 'required|numeric',
             'status' => 'required|string',
             'delivery_info'=> 'required|string',
             'payment_type'=> 'required|string',
             'recipient_name'=> 'required|string',
             'recipient_phone'=> 'required|string',
             'recipient_email'=> 'required|string',
-            
+
         ]);
 
         // Extract product IDs and quantities from the products array
