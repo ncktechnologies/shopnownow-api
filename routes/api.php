@@ -12,6 +12,7 @@ use App\Http\Controllers\BandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DeliveryLocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
