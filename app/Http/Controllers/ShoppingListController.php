@@ -38,7 +38,7 @@ class ShoppingListController extends Controller
             // You may choose to send a response with the newly created shopping list's data
             return response()->json(['message' => 'Shopping list created successfully', 'shopping list' => $shoppingList], 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => $validatedData, 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => $shoppingList, 'error' => $e->getMessage()], 500);
         }
     }
 
