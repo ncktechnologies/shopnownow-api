@@ -28,7 +28,7 @@ class WalletController extends Controller
         $user = Auth::user();
 
         // Update the user's balance
-        $user->balance += $request->amount;
+        $user->wallet += $request->amount;
         $user->save();
 
         // Create a new transaction
@@ -56,7 +56,7 @@ class WalletController extends Controller
         $user = Auth::user();
 
         // Check if the user has enough balance
-        if ($user->balance < $request->amount) {
+        if ($user->wallet < $request->amount) {
             return response()->json(['message' => 'Insufficient balance'], 400);
         }
 
