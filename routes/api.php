@@ -143,6 +143,9 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::apiResource('delivery-locations', DeliveryLocationController::class);
+        Route::get('delivery-locations/{id}', [DeliveryLocationController::class, 'show']);
+        Route::put('delivery-locations/{id}', [DeliveryLocationController::class, 'update']);
+        Route::delete('delivery-locations/{id}', [DeliveryLocationController::class, 'destroy']);
 
         });
 
