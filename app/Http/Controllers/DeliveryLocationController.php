@@ -53,4 +53,10 @@ class DeliveryLocationController extends Controller
         $location->delete();
         return response()->json(['message' => 'Location deleted successfully'], 200);
     }
+
+    public function getByBandId($band_id)
+    {
+        $locations = DeliveryLocation::where('band_id', $band_id)->get();
+        return response()->json(['locations' => $locations], 200);
+    }
 }
