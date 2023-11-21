@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('shopping_lists', function (Blueprint $table) {
             $table->id();
+            $table->json('product_ids'); // Store product IDs as JSON
+            $table->json('quantities'); // Store quantities as JSON
+            $table->foreignId('user_id')->constrained(); // Foreign key for user ID
             $table->timestamps();
         });
     }
