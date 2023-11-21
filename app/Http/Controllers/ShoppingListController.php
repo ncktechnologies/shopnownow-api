@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 class ShoppingListController extends Controller
 {
 
-    //create a function called createList to allow user store product ids as a shopping list as well as quantity of each product
     public function createList(Request $request)
     {
-        // Get the authenticated user
-        $user = $request->user();
+        // Get the authenticated user using Laravel's authentication
+        $user = auth()->user();
 
         // Validate the incoming request data
         $validatedData = $request->validate([
