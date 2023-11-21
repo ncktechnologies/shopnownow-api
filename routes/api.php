@@ -85,7 +85,6 @@ Route::prefix('v1')->group(function () {
 
 
         Route::prefix('coupons')->group(function(){
-            Route::get('/list', [CouponController::class, 'index']); // Get all coupons
             Route::get('load/{coupon}', [CouponController::class, 'loadCoupon']); // Get coupon details
 
         });
@@ -134,7 +133,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('coupons')->group(function () {
-            Route::get('/list', [CouponController::class, 'index']); // Get all coupons
+            Route::get('/list', [CouponController::class, 'list']); // Get all coupons
             Route::post('/create', [CouponController::class, 'create']); // Create a coupon
             Route::get('show/{coupon}', [CouponController::class, 'show']); // Get coupon details
         });

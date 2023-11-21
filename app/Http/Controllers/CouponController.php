@@ -52,4 +52,18 @@ class CouponController extends Controller
             return response()->json(['message' => 'An error occurred while loading the coupon', 'error' => $e->getMessage()], 500);
         }
     }
+
+    //List all coupons
+    public function list()
+    {
+        try {
+            // Get all coupons
+            $coupons = Coupon::all();
+
+            // Return the coupons data
+            return response()->json(['coupons' => $coupons], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while loading the coupons', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
