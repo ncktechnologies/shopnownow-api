@@ -7,7 +7,6 @@ use App\Models\DeliveryLocation;
 
 class DeliveryLocationController extends Controller
 {
-    //
 
     public function index()
     {
