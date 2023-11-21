@@ -46,6 +46,12 @@ class CouponController extends Controller
                 return response()->json(['message' => 'Coupon not found'], 404);
             }
 
+            // Check if the coupon has expired
+            $currentDate = date('Y-m-d');
+            if ($coupon->start_date > $currentDate || $coupon->end_date < $currentDate) {
+                return response()->json(['message' => 'Coupon has expired'], 400);
+            }
+
             // Return the coupon data
             return response()->json(['coupon' => $coupon], 200);
         } catch (\Exception $e) {
