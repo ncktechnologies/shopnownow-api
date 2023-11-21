@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,8 +62,14 @@ Route::prefix('v1')->group(function () {
                 Route::post('/place_order/{list_id}', [OrderController::class, 'place']);
                 Route::get('/list/{list_id}', [ShoppingListController::class, 'show']);
                 Route::get('/lists', [ShoppingListController::class, 'index']);
+            });
 
-
+            Route::prefix('wallet')->group(function () {
+                Route::get('/balance', [WalletController::class, 'balance']);
+                Route::post('/fund_wallet', [WalletController::class, 'fundWallet']);
+                Route::post('/withdraw_funds', [WalletController::class, 'withdrawFunds']);
+                Route::get('/transactions', [WalletController::class, 'transactionHistory']);
+                Route::get('/transactions/{transaction}', [WalletController::class, 'transactionDetails']);
             });
         });
 
