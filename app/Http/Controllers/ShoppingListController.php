@@ -7,30 +7,30 @@ use Illuminate\Http\Request;
 
 class ShoppingListController extends Controller
 {
-    public function create(Request $request)
+
+    //create a function called createList to allow user store product ids as a shopping list as well as quantity of each product
+    public function createList(Request $request)
     {
+        // Validate the incoming request data
         $validatedData = $request->validate([
-            'products.*.name' => 'required',
-            'products.*.price' => 'required|numeric',
-            'products.*.unit_of_measurement' => 'required',
-            'products.*.category_id' => 'required|exists:categories,id',
-            'products.*.thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'user_id' => 'required|integer',
+            'products.*.id' => 'required|integer',
+            'products.*.quantity' => 'required|integer',
         ]);
 
-        $products = [];
+        // Extract product IDs and quantities from the products array
+        $products = collect($validatedData['products']);
+        $productIds = $products->pluck('id');
+        $quantities = $products->pluck('quantity');
 
-        foreach ($validatedData['products'] as $productData) {
-            if ($request->hasFile('products.*.thumbnail')) {
-                $thumbnail = $request->file('products.*.thumbnail');
-                $thumbnailPath = $thumbnail->store('thumbnails', 'public');
-                $productData['thumbnail_url'] = asset('storage/' . $thumbnailPath);
-            }
+        // Add product IDs and quantities to the validated data
+        $validatedData['product_ids'] = json_encode($productIds);
+        $validatedData['quantities'] = json_encode($quantities);
 
-            $product = ShoppingList::create($productData);
-            $products[] = $product;
-        }
+        // Create a new shopping list
+        $shoppingList = ShoppingList::create($validatedData);
 
-        return response()->json($products, 201);
+        // You may choose to send a response with the newly created shopping list's data
+        return response()->json(['message' => 'Shopping list created successfully', 'shopping list' => $shoppingList], 201);
     }
-    //
 }

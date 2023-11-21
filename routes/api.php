@@ -58,7 +58,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('shopping_list')->group(function () {
-            Route::post('/save_list', [ShoppingListController::class, 'create']);
+            Route::post('/save_list', [ShoppingListController::class, 'createList']);
             Route::post('/place_order/{list_id}', [OrderController::class, 'place']);
         });
 
