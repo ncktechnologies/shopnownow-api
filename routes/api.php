@@ -9,6 +9,7 @@ use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BandController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,7 +58,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('shopping_list')->group(function () {
-            Route::post('/create_shopping_list', [ShoppingListController::class, 'create']);
+            Route::post('/save_list', [ShoppingListController::class, 'create']);
             Route::post('/place_order/{list_id}', [OrderController::class, 'place']);
         });
 
@@ -92,6 +93,16 @@ Route::prefix('v1')->group(function () {
             Route::put('update/{category}', [CategoryController::class, 'update']); // Update category
             Route::post('hide/{category}', [CategoryController::class, 'hide']); // Hide category
         });
+
+        Route::prefix('product')->group(function(){
+            Route::get('/list', [ProductController::class, 'index']); // Get all products
+            Route::post('/create', [ProductController::class, 'create']); // Create a product
+            Route::get('show/{product}', [ProductController::class, 'show']); // Get product details
+            Route::put('update/{product}', [ProductController::class, 'update']); // Update product
+            Route::post('hide/{product}', [ProductController::class, 'hide']); // Hide product
+
+        });
+
 
         });
 

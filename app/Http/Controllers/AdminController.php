@@ -3,20 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Order;
+use App\Models\Admin;
 
 class AdminController extends Controller
 {
-    public function users()
+    public function admins()
     {
-        $users = User::all();
-        return response()->json($users);
+        $admins = Admin::all();
+        return response()->json($admins);
     }
 
-    public function orders()
+    public function signup(Request $request)
     {
-        $orders = Order::all();
-        return response()->json($orders);
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:admin',
+            'password' => 'required',
+            'role' => 'required',
+        ]);
+
+        $validatedData['password'] = bcrypt($validatedData['password']);
+        $admin = Admin::create($validatedData);
+        return response()->json($admin, 201);
     }
+
 }
