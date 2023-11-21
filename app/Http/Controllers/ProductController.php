@@ -49,9 +49,13 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            return response()->json(['message' => 'Product retrieved successfully', 'product' => $product], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the product', 'error' => $e->getMessage()], 500);
+        }
     }
-
     /**
      * Show the form for editing the specified resource.
      */
