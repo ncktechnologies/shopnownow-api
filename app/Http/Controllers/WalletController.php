@@ -13,8 +13,8 @@ class WalletController extends Controller
         // Get the authenticated user
         $user = Auth::user();
 
-        // Return the user's balance
-        return response()->json(['balance' => $user->balance]);
+        // Return the user's balance and loyalty points
+        return response()->json(['wallet_balance' => $user->wallet, 'loyalty_points' => $user->loyalty_points]);
     }
 
     public function fundWallet(Request $request)
