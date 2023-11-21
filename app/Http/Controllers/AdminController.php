@@ -41,13 +41,16 @@ class AdminController extends Controller
             if ($admin) {
                 $checkPassword = Hash::check($validatedData['password'], $admin->password);
                 if ($checkPassword) {
-                    $token = $admin->createToken('authToken')->plainTextToken;
+                    $tokenResult = $admin->createToken('authToken');
+                    $token = $tokenResult->token;
+                    $accessToken = $tokenResult->accessToken;
+
                     $data = [
-                        'admin_id' => $admin->id,
-                        'name' => $admin->name,
-                        'email' => $admin->email,
-                        'access_token' => $token,
-                    ];
+                            'admin_id' => $admin->id,
+                            'name' => $admin->name,
+                            'email' => $admin->email,
+                            'access_token' => $accessToken,
+                        ];
                     return response()->json(['success' => true, 'message' => 'Admin successfully logged in!', 'data' => $data], 200);
                 }
                 return response()->json(['success' => false, 'message' => 'Incorrect password!'], 400);
