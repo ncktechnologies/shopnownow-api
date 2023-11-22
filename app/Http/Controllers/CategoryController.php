@@ -47,7 +47,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $categoryId)
     {
         try {
             $request->validate([
@@ -58,7 +58,7 @@ class CategoryController extends Controller
                 'discount_type' => 'nullable|in:percentage,fixed',
                 'discount_value' => 'nullable|numeric',
                 'thumbnail' => 'nullable|image',
-                'band_id' => 'required|exists:bands,id', // Add this line
+                'band_id' => 'required|exists:bands,id',
             ]);
 
             $data = $request->all();
@@ -68,31 +68,33 @@ class CategoryController extends Controller
                 $data['thumbnail'] = asset('storage/' . $thumbnailPath);
             }
 
+            $category = Category::findOrFail($categoryId);
             $category->update($data);
 
             return response()->json($category);
         } catch (\Exception $e) {
-            return response()->json(['message' => $data, 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'An error occurred while updating the category', 'error' => $e->getMessage()], 500);
         }
     }
 
-    public function show(Category $category)
+    public function show($categoryId)
     {
         try {
+            $category = Category::findOrFail($categoryId);
             return response()->json($category);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the category', 'error' => $e->getMessage()], 500);
         }
     }
 
-
-    public function hide(Category $category)
+    public function hide($categoryId)
     {
         try {
+            $category = Category::findOrFail($categoryId);
             $category->update(['hidden' => !$category->hidden]);
 
             return response()->json($category);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while updating the category visibility', 'error' => $e->getMessage()], 500);
         }
     }
