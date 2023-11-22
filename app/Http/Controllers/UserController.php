@@ -54,7 +54,7 @@ class UserController extends Controller
             // Update the user's attributes
             $user->update($validatedData);
 
-            return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+            return response()->json(['message' => $validatedData, 'user' => $user]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while updating the user', 'error' => $e->getMessage()], 500);
         }
