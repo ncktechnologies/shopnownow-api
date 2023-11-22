@@ -17,7 +17,7 @@ class SpecialRequestController extends Controller
     {
         $validatedData = $request->validate([
             'request' => 'required|string',
-            'message' => 'required|string',
+            'comment' => 'required|string',
         ]);
 
         $specialRequest = SpecialRequest::create($validatedData);

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SpecialRequest extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['request', 'message'];
+
+    protected $fillable = ['request', 'comment'];
 }
