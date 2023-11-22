@@ -78,7 +78,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::apiResource('delivery-locations', DeliveryLocationController::class);
-        Route::get('/delivery-locations/{band_id}', [DeliveryLocationController::class, 'getByBandId']);
+        Route::get('/get-locations/{band_id}', [DeliveryLocationController::class, 'getByBandId']);
 
         Route::prefix('product')->group(function(){
             Route::get('/list', [ProductController::class, 'index']); // Get all products
