@@ -81,6 +81,10 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('delivery-locations', DeliveryLocationController::class);
         Route::get('/get-locations/{band_id}', [DeliveryLocationController::class, 'getByBandId']);
 
+        Route::prefix('category')->group(function () { // Category routes
+            Route::get('/list', [CategoryController::class, 'index']); // Get all categories
+            Route::get('show/{category}', [CategoryController::class, 'show']); // Get category details
+        });
         Route::prefix('product')->group(function(){
             Route::get('/list', [ProductController::class, 'index']); // Get all products
             Route::get('show/{product}', [ProductController::class, 'show']); // Get product details
