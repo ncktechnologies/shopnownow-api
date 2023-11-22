@@ -24,8 +24,9 @@ class SpecialRequestController extends Controller
         return response()->json(['message' => 'Request created successfully', 'request' => $specialRequest], 201);
     }
 
-    public function show(SpecialRequest $specialRequest)
+    public function show($requestID)
     {
+        $specialRequest = SpecialRequest::findOrFail($requestID);
         return response()->json(['request' => $specialRequest], 200);
     }
 
@@ -48,8 +49,10 @@ class SpecialRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SpecialRequest $specialRequest)
+    public function destroy($requestID)
     {
-        //
+        $specialRequest = SpecialRequest::findOrFail($requestID);
+        $specialRequest->delete();
+        return response()->json(['message' => 'Request deleted successfully'], 200);
     }
 }
