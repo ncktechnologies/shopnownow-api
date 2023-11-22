@@ -22,6 +22,7 @@ class Order extends Model
         'recipient_phone',
         'recipient_email',
         'status',
+        'user_id',
     ];
 
     // Additional methods and relationships...
