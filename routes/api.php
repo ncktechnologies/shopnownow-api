@@ -145,10 +145,12 @@ Route::prefix('v1')->group(function () {
             Route::delete('delete/{coupon}', [CouponController::class, 'destroy']); // Delete coupon
         });
 
-        Route::apiResource('delivery-locations', DeliveryLocationController::class);
-        Route::get('delivery-locations/{id}', [DeliveryLocationController::class, 'show']);
-        Route::put('delivery-locations/{id}', [DeliveryLocationController::class, 'update']);
-        Route::delete('delivery-locations/{id}', [DeliveryLocationController::class, 'destroy']);
+        Route::prefix('delivery-locations')->group(function () {
+        Route::post('create', [DeliveryLocationController::class, 'store']);
+        Route::get('list', [DeliveryLocationController::class, 'index']);
+        Route::get('list/{id}', [DeliveryLocationController::class, 'show']);
+        Route::put('update/{id}', [DeliveryLocationController::class, 'update']);
+        Route::delete('delete/{id}', [DeliveryLocationController::class, 'destroy']);
 
         });
 
