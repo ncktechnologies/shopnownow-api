@@ -136,7 +136,7 @@ class WalletController extends Controller
             $user = Auth::user();
 
             // Get the user's transactions
-            $transactions = Transaction::where('user_id', $user->id)->get();
+            $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
 
             return response()->json(['transactions' => $transactions]);
         } catch (\Exception $e) {
