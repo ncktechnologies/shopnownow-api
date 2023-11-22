@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
     public function index()
     {
-        // Return all orders as a JSON response
-        return response()->json(['orders' => Order::all()]);
+        try {
+            $orders = Order::where('user_id', Auth::id())->get();
+            return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the orders', 'error' => $e->getMessage()], 500);
+        }
     }
     //add order functions for process, show, update and destroy
     public function store(Request $request)
