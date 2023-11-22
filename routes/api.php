@@ -87,6 +87,9 @@ Route::prefix('v1')->group(function () {
 
         });
 
+        Route::prefix('special_request')->group(function(){
+            Route::post('/create', [SpecialRequestController::class, 'store']);
+        });
 
         Route::prefix('coupons')->group(function(){
             Route::post('load', [CouponController::class, 'loadCoupon']); // Get coupon details
@@ -152,6 +155,12 @@ Route::prefix('v1')->group(function () {
         Route::put('update/{id}', [DeliveryLocationController::class, 'update']);
         Route::delete('delete/{id}', [DeliveryLocationController::class, 'destroy']);
 
+        });
+
+        Route::prefix('special_request')->group(function(){
+            Route::get('/list', [SpecialRequestController::class, 'index']);
+            Route::get('/list/{id}', [SpecialRequestController::class, 'show']);
+            Route::delete('/delete/{id}', [SpecialRequestController::class, 'destroy']);
         });
 
 
