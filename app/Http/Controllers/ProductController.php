@@ -57,10 +57,11 @@ class ProductController extends Controller
         }
     }
 
-    public function search($query)
+    public function search($query, $categoryId)
     {
         try {
             $products = Product::where('name', 'LIKE', "%{$query}%")
+                ->where('category_id', $categoryId)
                 ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
