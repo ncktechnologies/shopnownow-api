@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:user'])->group(function () {
             Route::prefix('profile')->group(function () {
                 Route::get('show', [UserController::class, 'profile']);
+                Route::put('/user/{user}', [UserController::class, 'update']);
                 Route::post('change_password', [UserController::class, 'changePassword']);
             });
 
