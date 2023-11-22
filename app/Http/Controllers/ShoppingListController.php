@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ShoppingList;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ShoppingListController extends Controller
