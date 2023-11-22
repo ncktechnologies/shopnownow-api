@@ -72,7 +72,7 @@ class CategoryController extends Controller
 
             return response()->json($category);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An error occurred while updating the category', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => $category, 'error' => $e->getMessage()], 500);
         }
     }
 
