@@ -39,12 +39,12 @@ class UserController extends Controller
         return response()->json(['user' => $request->user()]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $userId)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
             'name' => 'string|max:255',
-            'email' => 'email|unique:users,email,' . $user->id, // Exclude the current user's email
+            'email' => 'email|unique:users,email,' . $userId, // Exclude the current user's email
             'phone_number' => 'nullable|string',
         ]);
 
