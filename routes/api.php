@@ -170,7 +170,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('location')->group(function () { // Location routes
             Route::get('/list', [LocationController::class, 'index']); // Get all locations
-            Route::post('/create', [LocationController::class, 'create']); // Create a location
+            Route::post('/create', [LocationController::class, 'store']); // Create a location
             Route::get('show/{location}', [LocationController::class, 'show']); // Get location details
             Route::post('update/{location}', [LocationController::class, 'update']); // Update location
             Route::post('hide/{location}', [LocationController::class, 'hide']); // Hide location
