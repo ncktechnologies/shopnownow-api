@@ -45,7 +45,9 @@ class LocationController extends Controller
         $location = Location::findOrFail($id);
         $location->update(['hidden' => !$location->hidden]);
 
-        return response()->json(['message' => 'Location hidden']);
+        $message = $location->hidden ? 'Location hidden' : 'Location visible';
+
+        return response()->json(['message' => $message, 'location' => $location]);
     }
 
     public function destroy($id)
