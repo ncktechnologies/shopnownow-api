@@ -14,6 +14,18 @@ class OrderController extends Controller
     {
         try {
             $orders = Order::where('user_id', Auth::id())->get();
+
+            foreach ($orders as $order) {
+                $productIds = json_decode($order->product_ids);
+                $quantities = json_decode($order->quantities);
+
+                $products = Product::find($productIds);
+                foreach ($products as $index => $product) {
+                    $product->quantity = $quantities[$index];
+                }
+                $order->products = $products;
+            }
+
             return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the orders', 'error' => $e->getMessage()], 500);
@@ -67,7 +79,12 @@ class OrderController extends Controller
         }
 
         $productIds = json_decode($order->product_ids);
-        $products = Product::whereIn('id', $productIds)->get();
+        $quantities = json_decode($order->quantities);
+
+        $products = Product::find($productIds);
+        foreach ($products as $index => $product) {
+            $product->quantity = $quantities[$index];
+        }
 
         return response()->json(['order' => $order, 'products' => $products]);
     }
