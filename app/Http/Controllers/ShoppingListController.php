@@ -6,6 +6,7 @@ use App\Models\ShoppingList;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingListController extends Controller
 {
@@ -64,10 +65,16 @@ class ShoppingListController extends Controller
         }
     }
 
+
     public function show($list_id)
     {
         try {
             $shoppingList = ShoppingList::findOrFail($list_id);
+
+            if (Auth::id() !== $shoppingList->user_id) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
             $productIds = json_decode($shoppingList->product_ids);
             $quantities = json_decode($shoppingList->quantities);
 
@@ -86,7 +93,7 @@ class ShoppingListController extends Controller
     public function index()
     {
         try {
-            $shoppingLists = ShoppingList::all();
+            $shoppingLists = ShoppingList::where('user_id', Auth::id())->get();
 
             foreach ($shoppingLists as $shoppingList) {
                 $productIds = json_decode($shoppingList->product_ids);
