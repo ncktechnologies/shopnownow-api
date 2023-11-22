@@ -64,8 +64,8 @@ class CategoryController extends Controller
             $data = $request->all();
 
             if ($request->hasFile('thumbnail')) {
-                $path = $request->file('thumbnail')->store('thumbnails', 'public');
-                $data['thumbnail'] = asset($path);
+                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+                $data['thumbnail_url'] = asset('storage/' . $thumbnailPath);
             }
 
             $category->update($data);
