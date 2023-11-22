@@ -62,24 +62,26 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        // Decode the product_ids JSON array
-        $productIds = json_decode($order->product_ids);
+        if (Auth::id() !== $order->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
 
-        // Get the products for the order
+        $productIds = json_decode($order->product_ids);
         $products = Product::whereIn('id', $productIds)->get();
 
-        // Return the order's details and products as a JSON response
         return response()->json(['order' => $order, 'products' => $products]);
     }
 
     public function update(Request $request, Order $order)
     {
-        // Validate the incoming request data
+        if (Auth::id() !== $order->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         $validatedData = $request->validate([
             'status' => 'required|string',
         ]);
 
-        // Update the order's status
         $order->status = $validatedData['status'];
         $order->save();
 
@@ -88,7 +90,10 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-        // Delete the order
+        if (Auth::id() !== $order->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully']);
