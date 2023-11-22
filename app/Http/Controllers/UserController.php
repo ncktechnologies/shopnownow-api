@@ -45,7 +45,6 @@ class UserController extends Controller
             // Validate the incoming request data
             $validatedData = $request->validate([
                 'name' => 'string|max:255',
-                'email' => 'email|unique:users,email,' . $userId, // Exclude the current user's email
                 'phone_number' => 'nullable|string',
             ]);
 
