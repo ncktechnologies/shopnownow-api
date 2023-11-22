@@ -67,6 +67,10 @@ class ShoppingListController extends Controller
     {
         try {
             $shoppingList = ShoppingList::findOrFail($list_id);
+            $productIds = json_decode($shoppingList->product_ids);
+            $products = Product::find($productIds);
+            $shoppingList->product_ids = $products;
+
             return response()->json(['message' => 'Shopping list retrieved successfully', 'shopping list' => $shoppingList], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the shopping list', 'error' => $e->getMessage()], 500);
@@ -77,6 +81,13 @@ class ShoppingListController extends Controller
     {
         try {
             $shoppingLists = ShoppingList::all();
+
+            foreach ($shoppingLists as $shoppingList) {
+                $productIds = json_decode($shoppingList->product_ids);
+                $products = Product::find($productIds);
+                $shoppingList->product_ids = $products;
+            }
+
             return response()->json(['message' => 'Shopping lists retrieved successfully', 'shopping lists' => $shoppingLists], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the shopping lists', 'error' => $e->getMessage()], 500);
