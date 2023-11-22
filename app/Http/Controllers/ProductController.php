@@ -57,7 +57,7 @@ class ProductController extends Controller
         }
     }
 
-    public function search($query, $categoryId)
+    public function searchByCategory($query, $categoryId)
     {
         try {
             $products = Product::where('name', 'LIKE', "%{$query}%")
@@ -67,6 +67,23 @@ class ProductController extends Controller
                                    WHEN name LIKE '%{$query}' THEN 2
                                    ELSE 3 END, name")
                 ->take(20)
+                ->get();
+
+            return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the products', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function search($query)
+    {
+        try {
+            $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
+                                   WHEN name LIKE '{$query}%' THEN 1
+                                   WHEN name LIKE '%{$query}' THEN 2
+                                   ELSE 3 END, name")
+            ->take(20)
                 ->get();
 
             return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
