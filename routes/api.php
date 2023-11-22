@@ -47,6 +47,10 @@ Route::prefix('v1')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
         });
 
+            Route::prefix('order-noauth')->group(function () {
+                Route::post('/orders', [OrderController::class, 'store']);
+            });
+
         Route::middleware(['auth:user'])->group(function () {
             Route::prefix('profile')->group(function () {
                 Route::get('show', [UserController::class, 'profile']);
@@ -55,7 +59,6 @@ Route::prefix('v1')->group(function () {
             });
 
             Route::prefix('orders')->group(function () {
-                Route::post('/orders', [OrderController::class, 'store']); // Create an order
                 Route::get('/orders', [OrderController::class, 'index']); // Get all orders
                 Route::get('/order/{order}', [OrderController::class, 'show']); // Get order details
                 Route::put('/update/{order}', [OrderController::class, 'update']); // Update order
