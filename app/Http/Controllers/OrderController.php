@@ -29,6 +29,7 @@ class OrderController extends Controller
             'recipient_name'=> 'required|string',
             'recipient_phone'=> 'required|string',
             'recipient_email'=> 'required|string',
+            'delivery_fee'=> 'required|numeric',
         ]);
 
         // Extract product IDs and quantities from the products array
