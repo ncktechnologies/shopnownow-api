@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -51,10 +52,17 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
 
+
     public function show(Order $order)
     {
-        // Return the order's details as a JSON response
-        return response()->json(['order' => $order]);
+        // Decode the product_ids JSON array
+        $productIds = json_decode($order->product_ids);
+
+        // Get the products for the order
+        $products = Product::whereIn('id', $productIds)->get();
+
+        // Return the order's details and products as a JSON response
+        return response()->json(['order' => $order, 'products' => $products]);
     }
 
     public function update(Request $request, Order $order)
