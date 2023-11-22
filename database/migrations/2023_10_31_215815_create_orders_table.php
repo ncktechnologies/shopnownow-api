@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('recipient_phone');
             $table->string('recipient_email');
             $table->string('status');
+            $table->unsignedBigInteger('user_id')->nullable(); // User ID (optional)
             $table->timestamps();
         });
     }
