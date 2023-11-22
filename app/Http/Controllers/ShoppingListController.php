@@ -69,7 +69,12 @@ class ShoppingListController extends Controller
         try {
             $shoppingList = ShoppingList::findOrFail($list_id);
             $productIds = json_decode($shoppingList->product_ids);
+            $quantities = json_decode($shoppingList->quantities);
+
             $products = Product::find($productIds);
+            foreach ($products as $index => $product) {
+                $product->quantity = $quantities[$index];
+            }
             $shoppingList->product_ids = $products;
 
             return response()->json(['message' => 'Shopping list retrieved successfully', 'shopping list' => $shoppingList], 200);
@@ -85,7 +90,12 @@ class ShoppingListController extends Controller
 
             foreach ($shoppingLists as $shoppingList) {
                 $productIds = json_decode($shoppingList->product_ids);
+                $quantities = json_decode($shoppingList->quantities);
+
                 $products = Product::find($productIds);
+                foreach ($products as $index => $product) {
+                    $product->quantity = $quantities[$index];
+                }
                 $shoppingList->product_ids = $products;
             }
 
