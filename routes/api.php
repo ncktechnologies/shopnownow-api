@@ -14,6 +14,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryLocationController;
 use App\Http\Controllers\SpecialRequestController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -165,6 +166,14 @@ Route::prefix('v1')->group(function () {
         Route::put('update/{id}', [DeliveryLocationController::class, 'update']);
         Route::delete('delete/{id}', [DeliveryLocationController::class, 'destroy']);
 
+        });
+
+        Route::prefix('location')->group(function () { // Location routes
+            Route::get('/list', [LocationController::class, 'index']); // Get all locations
+            Route::post('/create', [LocationController::class, 'create']); // Create a location
+            Route::get('show/{location}', [LocationController::class, 'show']); // Get location details
+            Route::post('update/{location}', [LocationController::class, 'update']); // Update location
+            Route::post('hide/{location}', [LocationController::class, 'hide']); // Hide location
         });
 
         Route::prefix('special_request')->group(function(){
