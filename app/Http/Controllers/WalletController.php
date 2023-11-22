@@ -29,7 +29,7 @@ class WalletController extends Controller
             // Validate the request
             $request->validate([
                 'amount' => 'required|numeric|min:0.01',
-                'paymment_reference' => 'required|string',
+                'payment_reference' => 'required|string',
             ]);
 
             // Get the authenticated user
