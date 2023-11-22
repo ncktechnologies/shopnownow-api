@@ -41,17 +41,24 @@ class UserController extends Controller
 
     public function update(Request $request, $userId)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'name' => 'string|max:255',
-            'email' => 'email|unique:users,email,' . $userId, // Exclude the current user's email
-            'phone_number' => 'nullable|string',
-        ]);
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'name' => 'string|max:255',
+                'email' => 'email|unique:users,email,' . $userId, // Exclude the current user's email
+                'phone_number' => 'nullable|string',
+            ]);
 
-        // Update the user's attributes
-        $user->update($validatedData);
+            // Fetch the user using the provided ID
+            $user = User::findOrFail($userId);
 
-        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+            // Update the user's attributes
+            $user->update($validatedData);
+
+            return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while updating the user', 'error' => $e->getMessage()], 500);
+        }
     }
 
 
