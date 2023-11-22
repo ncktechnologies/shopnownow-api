@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
         if ($request->hasFile('thumbnail')) {
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-            $data['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+            $data['thumbnail'] = asset('storage/' . $thumbnailPath);
         }
 
             $category = Category::create($data);
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
             if ($request->hasFile('thumbnail')) {
                 $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-                $data['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+                $data['thumbnail'] = asset('storage/' . $thumbnailPath);
             }
 
             $category->update($data);
