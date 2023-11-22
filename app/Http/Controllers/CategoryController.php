@@ -51,10 +51,10 @@ class CategoryController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required',
-                'tax' => 'required|numeric',
-                'delivery_option' => 'required|boolean',
-                'discount_option' => 'required|boolean',
+                'name' => 'sometimes|required',
+                'tax' => 'sometimes|required|numeric',
+                'delivery_option' => 'sometimes|required|boolean',
+                'discount_option' => 'sometimes|required|boolean',
                 'discount_type' => 'nullable|in:percentage,fixed',
                 'discount_value' => 'nullable|numeric',
                 'thumbnail' => 'nullable|image',
