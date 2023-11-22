@@ -9,50 +9,47 @@ class SpecialRequestController extends Controller
 {
     public function index()
     {
-        $requests = SpecialRequest::all();
-        return response()->json(['requests' => $requests], 200);
+        try {
+            $requests = SpecialRequest::all();
+            return response()->json(['requests' => $requests], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the requests', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'request' => 'required|string',
-            'comment' => 'required|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'request' => 'required|string',
+                'comment' => 'required|string',
+            ]);
 
-        $specialRequest = SpecialRequest::create($validatedData);
-        return response()->json(['message' => 'Request created successfully', 'request' => $specialRequest], 201);
+            $specialRequest = SpecialRequest::create($validatedData);
+            return response()->json(['message' => 'Request created successfully', 'request' => $specialRequest], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while creating the request', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function show($requestID)
     {
-        $specialRequest = SpecialRequest::findOrFail($requestID);
-        return response()->json(['request' => $specialRequest], 200);
+        try {
+            $specialRequest = SpecialRequest::findOrFail($requestID);
+            return response()->json(['request' => $specialRequest], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the request', 'error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SpecialRequest $specialRequest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SpecialRequest $specialRequest)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($requestID)
     {
-        $specialRequest = SpecialRequest::findOrFail($requestID);
-        $specialRequest->delete();
-        return response()->json(['message' => 'Request deleted successfully'], 200);
+        try {
+            $specialRequest = SpecialRequest::findOrFail($requestID);
+            $specialRequest->delete();
+            return response()->json(['message' => 'Request deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while deleting the request', 'error' => $e->getMessage()], 500);
+        }
     }
 }
