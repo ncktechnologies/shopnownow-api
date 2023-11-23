@@ -23,6 +23,7 @@ class Order extends Model
         'recipient_email',
         'status',
         'user_id',
+        'delivery_time_slot',
     ];
 
     // Additional methods and relationships...

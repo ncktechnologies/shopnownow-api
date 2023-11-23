@@ -16,6 +16,7 @@ return new class extends Migration
             $table->json('product_ids'); // Array of product IDs
             $table->json('quantities'); // Quantity of each product ID
             $table->string('delivery_info'); // JSON for delivery information
+            $table->string('delivery_time_slot'); // Delivery time slot (e.g. 9am-12pm)
             $table->decimal('delivery_fee', 10, 2); // Delivery fee (e.g. $5.00
             $table->decimal('price', 10, 2); // Price/amount
             $table->decimal('tax', 10, 2); // Tax amount
