@@ -24,6 +24,20 @@ class DeliveryTimeSlotController extends Controller
         return response()->json(['timeSlot' => $timeSlot]);
     }
 
+    public function hide(DeliveryTimeSlot $timeSlot)
+    {
+        $timeSlot->is_available = false;
+        $timeSlot->save();
+        return response()->json(['timeSlot' => $timeSlot]);
+    }
+
+    public function unhide(DeliveryTimeSlot $timeSlot)
+    {
+        $timeSlot->is_available = true;
+        $timeSlot->save();
+        return response()->json(['timeSlot' => $timeSlot]);
+    }
+
     public function update(Request $request, DeliveryTimeSlot $timeSlot)
     {
         $timeSlot->update($request->all());

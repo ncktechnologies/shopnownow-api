@@ -180,6 +180,7 @@ Route::prefix('v1')->group(function () {
             Route::get('show/{timeSlot}', [DeliveryTimeSlotController::class, 'show']); // Get delivery time slot details
             Route::post('update/{timeSlot}', [DeliveryTimeSlotController::class, 'update']); // Update delivery time slot
             Route::post('hide/{timeSlot}', [DeliveryTimeSlotController::class, 'hide']); // Hide delivery time slot
+            Route::post('unhide/{timeSlot}', [DeliveryTimeSlotController::class, 'unhide']); // Hide delivery time slot
         });
 
         Route::prefix('location')->group(function () { // Location routes
