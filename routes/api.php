@@ -15,6 +15,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DeliveryLocationController;
 use App\Http\Controllers\SpecialRequestController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\DeliveryTimeSlotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,6 +87,10 @@ Route::prefix('v1')->group(function () {
 
         Route::apiResource('delivery-locations', DeliveryLocationController::class);
         Route::get('/get-locations/{band_id}', [DeliveryLocationController::class, 'getByBandId']);
+
+        Route::prefix('delivery-time-slots')->group(function () {
+            Route::get('/list', [DeliveryTimeSlotController::class, 'index']); // Get all delivery time slots
+        });
 
         Route::prefix('category')->group(function () { // Category routes
             Route::get('/list', [CategoryController::class, 'index']); // Get all categories
@@ -167,6 +172,14 @@ Route::prefix('v1')->group(function () {
         Route::put('update/{id}', [DeliveryLocationController::class, 'update']);
         Route::delete('delete/{id}', [DeliveryLocationController::class, 'destroy']);
 
+        });
+
+        Route::prefix('delivery-time-slots')->group(function () {
+            Route::get('/list', [DeliveryTimeSlotController::class, 'index']); // Get all delivery time slots
+            Route::post('/create', [DeliveryTimeSlotController::class, 'store']); // Create a delivery time slot
+            Route::get('show/{timeSlot}', [DeliveryTimeSlotController::class, 'show']); // Get delivery time slot details
+            Route::post('update/{timeSlot}', [DeliveryTimeSlotController::class, 'update']); // Update delivery time slot
+            Route::post('hide/{timeSlot}', [DeliveryTimeSlotController::class, 'hide']); // Hide delivery time slot
         });
 
         Route::prefix('location')->group(function () { // Location routes
