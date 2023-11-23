@@ -9,7 +9,7 @@ class DeliveryTimeSlotController extends Controller
 {
     public function index()
     {
-        $timeSlots = DeliveryTimeSlot::where('is_available', true)->get();
+        $timeSlots = DeliveryTimeSlot::get();
         return response()->json(['timeSlots' => $timeSlots]);
     }
 
