@@ -145,6 +145,22 @@ class WalletController extends Controller
         }
     }
 
+public function limitedTransactionHistory()
+{
+    try {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Get the user's transactions
+        $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get();
+
+        return response()->json(['transactions' => $transactions]);
+    } catch (\Exception $e) {
+        // Handle any unexpected errors
+        return response()->json(['error' => 'An unexpected error occurred'], 500);
+    }
+}
+
     public function transactionDetails($id)
     {
         try {
