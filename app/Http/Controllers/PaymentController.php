@@ -19,7 +19,7 @@ class PaymentController extends Controller
                 'user_id' => 'required|integer',
                 'amount' => 'required|numeric',
                 'status' => 'required|string',
-                'order_id' => 'required|string',
+                'order_id' => 'required|integer',
                 'reference' => 'required|string',
                 'payment_type' => 'required|string',
                 'payment_gateway' => 'required|string',
@@ -100,7 +100,7 @@ class PaymentController extends Controller
             $validatedData = $request->validate([
                 'amount' => 'required|numeric',
                 'status' => 'required|string',
-                'order_id' => 'required|string',
+                'order_id' => 'required|integer',
                 'reference' => 'required|string',
                 'payment_type' => 'required|string',
                 'payment_gateway' => 'required|string',
