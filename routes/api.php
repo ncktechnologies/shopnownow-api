@@ -116,6 +116,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('payment')->group(function () {
             Route::post('/process', [PaymentController::class, 'confirmPayment']);
+            Route::post('/process-payment-non-auth', [PaymentController::class, 'confirmNonUserPayment']);
             Route::get('/payment/{payment}', [PaymentController::class, 'loadPayment']);
             Route::put('/payment/{payment}', [PaymentController::class, 'update']);
             Route::delete('/payments/{payment}', [PaymentController::class, 'destroy']);
