@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Transaction;
 
 class PaymentController extends Controller
 {
@@ -34,6 +35,14 @@ class PaymentController extends Controller
                 $user->wallet -= $validatedData['amount'];
                 $user->save();
 
+                // Create a new transaction history
+                Transaction::create([
+                    'user_id' => $user->id,
+                    'amount' => $validatedData['amount'],
+                    'type' => 'debit',
+                    'description' => 'Payment for order ' . $validatedData['order_id'],
+                ]);
+
                 // Create a new payment
                 $payment = Payment::create($validatedData);
 
@@ -46,10 +55,21 @@ class PaymentController extends Controller
 
                 return response()->json(['message' => 'Payment confirmed successfully', 'payment' => $payment], 201);
             } else {
-                // Debit the user's wallet completely
-                $remainingAmount = $validatedData['amount'] - $user->wallet;
-                $user->wallet = 0;
-                $user->save();
+                if ($user->wallet > 0) {
+                    // Debit the user's wallet completely
+                    $remainingAmount = $validatedData['amount'] - $user->wallet;
+
+                    // Create a new transaction history
+                    Transaction::create([
+                        'user_id' => $user->id,
+                        'amount' => $user->wallet,
+                        'type' => 'debit',
+                        'description' => 'Payment for order ' . $validatedData['order_id'],
+                    ]);
+
+                    $user->wallet = 0;
+                    $user->save();
+                }
 
                 // Create a new payment
                 $payment = Payment::create($validatedData);
