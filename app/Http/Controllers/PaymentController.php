@@ -40,7 +40,9 @@ class PaymentController extends Controller
                     'user_id' => $user->id,
                     'amount' => $validatedData['amount'],
                     'type' => 'debit',
-                    'description' => 'Payment for order ' . $validatedData['order_id'],
+                    'reference' => 'Wallet Debit',
+                    'message' => 'Payment for order ' . $validatedData['order_id'],
+                    'status' => 'success'
                 ]);
 
                 // Create a new payment
@@ -59,13 +61,14 @@ class PaymentController extends Controller
                     // Debit the user's wallet completely
                     $remainingAmount = $validatedData['amount'] - $user->wallet;
 
-                    
                     // Create a new transaction history
                     Transaction::create([
                         'user_id' => $user->id,
                         'amount' => $user->wallet,
                         'type' => 'debit',
-                        'description' => 'Payment for order ' . $validatedData['order_id'],
+                        'reference' => 'Wallet Debit',
+                        'message' => 'Payment for order ' . $validatedData['order_id'],
+                        'status' => 'success'
                     ]);
 
                     $user->wallet = 0;
