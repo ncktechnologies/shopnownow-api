@@ -156,6 +156,13 @@ Route::prefix('v1')->group(function () {
 
         });
 
+        Route::prefix('orders')->group(function(){
+            Route::get('/list', [OrderController::class, 'getAllOrdersAdmin']); // Get all orders
+            Route::get('/order/{order}', [OrderController::class, 'getOneOrderAdmin']); // Get order details
+            Route::put('/update/{order}', [OrderController::class, 'updateOrderAdmin']); // Update order
+            Route::delete('/delete/{order}', [OrderController::class, 'deleteOrderAdmin']); // Delete order
+        });
+
         Route::prefix('coupons')->group(function () {
             Route::get('/list', [CouponController::class, 'list']); // Get all coupons
             Route::post('/create', [CouponController::class, 'create']); // Create a coupon
