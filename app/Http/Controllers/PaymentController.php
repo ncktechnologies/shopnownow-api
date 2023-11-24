@@ -45,6 +45,9 @@ class PaymentController extends Controller
                     'status' => 'success'
                 ]);
 
+                // Credit the user's loyalty points balance
+                $user->loyalty_points += $validatedData['amount'] * 0.005;
+
                 // Create a new payment
                 $payment = Payment::create($validatedData);
 
@@ -75,6 +78,9 @@ class PaymentController extends Controller
                     $user->save();
                 }
 
+                // Credit the user's loyalty points balance
+                $user->loyalty_points += $validatedData['amount'] * 0.005;
+                
                 // Create a new payment
                 $payment = Payment::create($validatedData);
 
