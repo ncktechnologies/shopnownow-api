@@ -59,6 +59,7 @@ class PaymentController extends Controller
                     // Debit the user's wallet completely
                     $remainingAmount = $validatedData['amount'] - $user->wallet;
 
+                    
                     // Create a new transaction history
                     Transaction::create([
                         'user_id' => $user->id,
