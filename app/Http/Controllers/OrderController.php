@@ -72,6 +72,48 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
 
+    public function reorder($id)
+    {
+        try {
+            // Get the authenticated user
+            $authUser = Auth::user();
+
+            // Find the order
+            $oldOrder = Order::find($id);
+
+            if (!$oldOrder) {
+                return response()->json(['message' => 'Order not found'], 404);
+            }
+
+            // Check if the user_id of the order matches the authenticated user's ID
+            if ($oldOrder->user_id != $authUser->id) {
+                return response()->json(['message' => 'You do not have permission to reorder this order'], 403);
+            }
+
+            // Extract the details from the old order
+            $data = [
+                'user_id' => $oldOrder->user_id,
+                'products' => json_decode($oldOrder->products, true),
+                'price' => $oldOrder->price,
+                'tax' => $oldOrder->tax,
+                'status' => 'pending', // Set the status to 'pending'
+                'delivery_info' => $oldOrder->delivery_info,
+                'payment_type' => $oldOrder->payment_type,
+                'recipient_name' => $oldOrder->recipient_name,
+                'recipient_phone' => $oldOrder->recipient_phone,
+                'recipient_email' => $oldOrder->recipient_email,
+                'delivery_fee' => $oldOrder->delivery_fee,
+                'delivery_time_slot' => $oldOrder->delivery_time_slot,
+            ];
+
+            // Create a new order with the same details
+            $newOrder = Order::create($data);
+
+            return response()->json(['message' => 'Order placed successfully', 'order' => $newOrder], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while placing the order', 'error' => $e->getMessage()], 500);
+        }
+    }
 
     public function show(Order $order)
     {

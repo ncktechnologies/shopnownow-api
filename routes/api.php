@@ -62,6 +62,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('orders')->group(function () {
                 Route::get('/orders', [OrderController::class, 'index']); // Get all orders
+                Route::post('/reorder/{order}', [OrderController::class, 'reorder']); // Reorder
                 Route::get('/order/{order}', [OrderController::class, 'show']); // Get order details
                 Route::put('/update/{order}', [OrderController::class, 'update']); // Update order
                 Route::delete('/delete/{order}', [OrderController::class, 'destroy']); // Delete order
