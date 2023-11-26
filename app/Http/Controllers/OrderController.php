@@ -93,7 +93,8 @@ class OrderController extends Controller
             // Extract the details from the old order
             $data = [
                 'user_id' => $oldOrder->user_id,
-                'product_ids' => $oldOrder->product_ids, // Add this line
+                'product_ids' => $oldOrder->product_ids,
+                'quantities' => $oldOrder->quantities, // Add this line
                 'products' => json_decode($oldOrder->products, true),
                 'price' => $oldOrder->price,
                 'tax' => $oldOrder->tax,
