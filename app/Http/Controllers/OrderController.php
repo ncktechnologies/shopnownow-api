@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Band;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -59,6 +61,25 @@ class OrderController extends Controller
         // Add product IDs and quantities to the validated data
         $validatedData['product_ids'] = json_encode($productIds);
         $validatedData['quantities'] = json_encode($quantities);
+
+            // Find the product
+            $productModel = Product::find($products[0]['id']);
+
+            // Get the category id from the Product model
+            $categoryId = $productModel->category_id;
+
+            // Find the product's category
+            $category = Category::find($categoryId);
+
+            // Find the band associated with the category
+            $band = Band::find($category->band_id);
+
+            // Check if the total price of the order is greater than or equal to the band's minimum
+            if ($validatedData['price'] < $band->minimum) {
+                return response()->json(['message' => 'The total price of the order must be greater than or equal to ' . $band->minimum], 400);
+            }
+
+
 
         // Generate an order ID
         $lastOrder = Order::orderBy('created_at', 'desc')->first();

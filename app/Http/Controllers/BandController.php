@@ -18,6 +18,7 @@ class BandController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'nullable',
+            'minimum' => 'nullable',
         ]);
 
         $band = Band::create($request->all());
@@ -35,6 +36,7 @@ class BandController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'nullable',
+            'minimum' => 'nullable',
         ]);
 
         $band->update($request->all());
