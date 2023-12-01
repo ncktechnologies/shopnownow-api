@@ -79,8 +79,6 @@ class OrderController extends Controller
                 return response()->json(['message' => 'The total price of the order must be greater than or equal to ' . $band->minimum], 400);
             }
 
-
-
         // Generate an order ID
         $lastOrder = Order::orderBy('created_at', 'desc')->first();
         $orderId = $lastOrder ? $lastOrder->id + 1 : 1;
@@ -128,6 +126,11 @@ class OrderController extends Controller
                 'delivery_fee' => $oldOrder->delivery_fee,
                 'delivery_time_slot' => $oldOrder->delivery_time_slot,
             ];
+
+            // Generate an order ID
+            $lastOrder = Order::orderBy('created_at', 'desc')->first();
+            $orderId = $lastOrder ? $lastOrder->id + 1 : 1;
+            $validatedData['order_id'] = '#' . str_pad($orderId, 7, '0', STR_PAD_LEFT);
 
             // Create a new order with the same details
             $newOrder = Order::create($data);
