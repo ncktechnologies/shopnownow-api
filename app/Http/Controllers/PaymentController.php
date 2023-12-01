@@ -26,6 +26,11 @@ class PaymentController extends Controller
                 'payment_gateway_reference' => 'required|string',
             ]);
 
+            // Check if a payment with the same order_id already exists
+            $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
+            if ($existingPayment) {
+                return response()->json(['message' => 'A payment for this order has already been processed'], 400);
+            }
             // Get the user
             $user = User::find($validatedData['user_id']);
 
@@ -114,6 +119,12 @@ class PaymentController extends Controller
                 'payment_gateway' => 'required|string',
                 'payment_gateway_reference' => 'required|string',
             ]);
+
+            // Check if a payment with the same order_id already exists
+            $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
+            if ($existingPayment) {
+                return response()->json(['message' => 'A payment for this order has already been processed'], 400);
+            }
 
             // Create a new payment
             $payment = Payment::create($validatedData);
