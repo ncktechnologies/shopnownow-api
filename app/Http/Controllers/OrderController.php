@@ -130,7 +130,10 @@ class OrderController extends Controller
             // Generate an order ID
             $lastOrder = Order::orderBy('created_at', 'desc')->first();
             $orderId = $lastOrder ? $lastOrder->id + 1 : 1;
-            $validatedData['order_id'] = '#' . str_pad($orderId, 7, '0', STR_PAD_LEFT);
+            $order_id = '#' . str_pad($orderId, 7, '0', STR_PAD_LEFT);
+
+            // Add order_id to the data array
+            $data['order_id'] = $order_id;
 
             // Create a new order with the same details
             $newOrder = Order::create($data);
