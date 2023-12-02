@@ -12,6 +12,13 @@ class CategoryController extends Controller
     {
         try {
             $categories = Category::with('band')->get();
+
+            // Transform the band object into the minimum value
+            $categories->transform(function ($category) {
+                $category->band = $category->band->minimum;
+                return $category;
+            });
+
             return response()->json($categories);
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the categories', 'error' => $e->getMessage()], 500);
