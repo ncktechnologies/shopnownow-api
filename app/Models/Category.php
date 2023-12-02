@@ -20,4 +20,9 @@ class Category extends Model
         'hidden',
         'band_id', // Add this line
     ];
+
+    public function band()
+    {
+        return $this->belongsTo(Band::class);
+    }
 }
