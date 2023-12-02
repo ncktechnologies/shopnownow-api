@@ -77,12 +77,18 @@ class CategoryController extends Controller
         }
     }
 
-    public function show($categoryId)
+    public function show($id)
     {
         try {
-            $category = Category::findOrFail($categoryId);
+            $category = Category::with('band')->find($id);
+
+            // Check if the category exists
+            if (!$category) {
+                return response()->json(['message' => 'Category not found'], 404);
+            }
+
             return response()->json($category);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the category', 'error' => $e->getMessage()], 500);
         }
     }
