@@ -58,10 +58,17 @@ class AuthController extends Controller
 
         $otp = rand(100000, 999999);
 
-        $user->otp = $otp;
-        $user->save();
+        // Create a new OTP using the Otp model
+        Otp::create([
+            'user_id' => $user->id,
+            'otp' => $otp,
+        ]);
 
-        //send otp to user email
+        // Send OTP to user email
+        Mail::raw("Your OTP is: $otp", function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('OTP for registration');
+        });
 
         return response(['message' => 'OTP sent to your email']);
     }
@@ -80,9 +87,15 @@ class AuthController extends Controller
             return response(['message' => 'User not found']);
         }
 
-        if ($user->otp == $validatedData['otp']) {
+        // Check the otps table using the Otp model
+        $otp = Otp::where('user_id', $user->id)->latest()->first();
+
+        if ($otp && $otp->otp == $validatedData['otp']) {
             $user->password = bcrypt($request->password);
             $user->save();
+
+            // Optionally, delete the used OTP
+            $otp->delete();
 
             return response(['message' => 'Password reset successfully']);
         } else {
