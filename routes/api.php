@@ -218,7 +218,6 @@ Route::prefix('v1')->group(function () {
             Route::get('/list', [PaymentController::class, 'index']);
 
         });
-        
 
     });
 
