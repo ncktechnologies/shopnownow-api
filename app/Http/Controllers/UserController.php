@@ -27,8 +27,23 @@ class UserController extends Controller
         return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
     }
 
-    public function show(User $user)
+    public function index()
     {
+        // Fetch all users
+        $users = User::all();
+
+        // Return the users as a JSON response
+        return response()->json(['users' => $users]);
+    }
+    
+    public function show($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
         // Return the user's details as a JSON response
         return response()->json(['user' => $user]);
     }

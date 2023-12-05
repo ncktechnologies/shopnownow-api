@@ -207,7 +207,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('users')->group(function() {
-            Route::post('/list', [UserController::class, 'store']);
+            Route::get('/list', [UserController::class, 'index']);
             Route::get('view/{user}', [UserController::class, 'show']);
             Route::put('/update/{user}', [UserController::class, 'update']);
             Route::delete('/remove/{user}', [UserController::class, 'destroy']);
