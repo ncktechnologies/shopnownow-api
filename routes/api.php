@@ -214,16 +214,11 @@ Route::prefix('v1')->group(function () {
 
         });
 
+        Route::prefix('payment')->group(function(){
+            Route::get('/list', [PaymentController::class, 'index']);
 
-
-
-        Route::post('/payment', [PaymentController::class, 'process']);
-
-        Route::group(['prefix' => 'admin'], function () {
-            Route::get('/users', [AdminController::class, 'users']);
-            Route::get('/orders', [AdminController::class, 'orders']);
-            // Add more admin routes as needed
         });
+
 
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);

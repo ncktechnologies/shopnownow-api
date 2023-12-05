@@ -143,21 +143,39 @@ class PaymentController extends Controller
         }
     }
 
-public function loadPayment($id)
-{
-    try {
-        // Find the payment by its ID
-        $payment = Payment::find($id);
+    public function loadPayment($id)
+    {
+        try {
+            // Find the payment by its ID
+            $payment = Payment::find($id);
 
-        // Check if the payment exists
-        if (!$payment) {
-            return response()->json(['message' => 'Payment not found'], 404);
+            // Check if the payment exists
+            if (!$payment) {
+                return response()->json(['message' => 'Payment not found'], 404);
+            }
+
+            // Return the payment data
+            return response()->json(['payment' => $payment], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while loading the payment', 'error' => $e->getMessage()], 500);
         }
-
-        // Return the payment data
-        return response()->json(['payment' => $payment], 200);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'An error occurred while loading the payment', 'error' => $e->getMessage()], 500);
     }
-}
+
+
+    //Admin functions
+    public function index()
+    {
+        try {
+            // Fetch all payments
+            $payments = Payment::all();
+
+            // Return the payments as a JSON response
+            return response()->json(['payments' => $payments]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while loading the payments', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
 }
