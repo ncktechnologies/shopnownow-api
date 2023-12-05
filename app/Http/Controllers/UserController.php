@@ -29,13 +29,14 @@ class UserController extends Controller
 
     public function index()
     {
-        // Fetch all users
-        $users = User::all();
+        // Fetch all users with their orders
+        $users = User::with('orders')->get();
+        // $users = User::all();
 
         // Return the users as a JSON response
         return response()->json(['users' => $users]);
     }
-    
+
     public function show($id)
     {
         $user = User::find($id);
