@@ -35,15 +35,15 @@ class AdminController extends Controller
             'password' => 'required'
         ]);
 
-        if (!Auth::guard('admin')->attempt($loginData)) {
+        $admin = Admin::where('email', $loginData['email'])->first();
+
+        if (!$admin || !Hash::check($loginData['password'], $admin->password)) {
             return response(['message' => 'Invalid Credentials'], 401);
         }
 
-        $admin = Admin::where('email', $loginData['email'])->first();
-
         $token = $admin->createToken('authToken')->plainTextToken;
 
-        return response(['admin' => Auth::guard('admin')->user(), 'access_token' => $token]);
+        return response(['admin' => $admin, 'access_token' => $token]);
     }
 
 }
