@@ -206,22 +206,27 @@ Route::prefix('v1')->group(function () {
             Route::delete('/delete/{id}', [SpecialRequestController::class, 'destroy']);
         });
 
+        Route::prefix('users')->group(function() {
+            Route::post('/list', [UserController::class, 'store']);
+            Route::get('view/{user}', [UserController::class, 'show']);
+            Route::put('/update/{user}', [UserController::class, 'update']);
+            Route::delete('/remove/{user}', [UserController::class, 'destroy']);
 
-    Route::post('/users', [UserController::class, 'store']);
-    Route::get('/users/{user}', [UserController::class, 'show']);
-    Route::put('/users/{user}', [UserController::class, 'update']);
-    Route::delete('/users/{user}', [UserController::class, 'destroy']);
+        });
 
-    Route::post('/payment', [PaymentController::class, 'process']);
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/users', [AdminController::class, 'users']);
-        Route::get('/orders', [AdminController::class, 'orders']);
-        // Add more admin routes as needed
-    });
 
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+
+        Route::post('/payment', [PaymentController::class, 'process']);
+
+        Route::group(['prefix' => 'admin'], function () {
+            Route::get('/users', [AdminController::class, 'users']);
+            Route::get('/orders', [AdminController::class, 'orders']);
+            // Add more admin routes as needed
+        });
+
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
 
     });
 
