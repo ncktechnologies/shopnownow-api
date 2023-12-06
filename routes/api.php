@@ -239,6 +239,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('site-data')->group(function(){
             Route::get('/site_data', [SiteDataController::class, 'show']);
+            Route::post('/site_data', [SiteDataController::class, 'create']);
             Route::put('/site_data', [SiteDataController::class, 'update']);
         });
 
