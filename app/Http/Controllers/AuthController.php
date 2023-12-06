@@ -100,7 +100,7 @@ class AuthController extends Controller
 
             return response(['message' => 'Password reset successfully']);
         } else {
-            return response(['message' => 'Invalid OTP']);
+            return response(['message' => 'Invalid OTP'], 401);
         }
     }
 
@@ -154,7 +154,7 @@ class AuthController extends Controller
 
             return response(['message' => 'OTP verified']);
         } else {
-            return response(['message' => 'Invalid OTP']);
+            return response(['message' => 'Invalid OTP'], 401);
         }
     }
 
