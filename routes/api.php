@@ -17,6 +17,7 @@ use App\Http\Controllers\SpecialRequestController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DeliveryTimeSlotController;
 use App\Http\Controllers\QuickGuideController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SiteDataController;
 use Illuminate\Support\Facades\Route;
 
@@ -241,6 +242,13 @@ Route::prefix('v1')->group(function () {
             Route::get('/site_data', [SiteDataController::class, 'show']);
             Route::post('/site_data', [SiteDataController::class, 'create']);
             Route::put('/site_data', [SiteDataController::class, 'update']);
+        });
+
+        Route::prefix('settings')->group(function(){
+            Route::get('/settings', [SettingsController::class, 'show']);
+            Route::post('/settings', [SettingsController::class, 'create']);
+            Route::put('/settings', [SettingsController::class, 'update']);
+
         });
 
     });

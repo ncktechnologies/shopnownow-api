@@ -15,4 +15,30 @@ class SettingsController extends Controller
 
         return response()->json(['message' => 'Setting updated successfully']);
     }
+
+    public function show($key)
+    {
+        $setting = Setting::where('key', $key)->first();
+
+        return response()->json(['setting' => $setting]);
+    }
+
+    public function index()
+    {
+        $settings = Setting::all();
+
+        return response()->json(['settings' => $settings]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'key' => 'required|string',
+            'value' => 'required|string',
+        ]);
+
+        $setting = Setting::create($data);
+
+        return response()->json(['setting' => $setting]);
+    }
 }

@@ -25,7 +25,7 @@ class OrderController extends Controller
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
                     $product->band = $product->category->band;
-                    unset($product->category);
+                    $product->category = $product->category->tax;
                 }
                 $order->products = $products;
             }
