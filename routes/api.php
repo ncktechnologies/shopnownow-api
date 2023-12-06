@@ -246,7 +246,8 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('settings')->group(function(){
             Route::get('/settings', [SettingsController::class, 'show']);
-            Route::post('/settings', [SettingsController::class, 'create']);
+            Route::get('/settings/list', [SettingsController::class, 'index']);
+            Route::post('/settings', [SettingsController::class, 'store']);
             Route::put('/settings', [SettingsController::class, 'update']);
 
         });
