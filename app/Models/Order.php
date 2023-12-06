@@ -24,6 +24,7 @@ class Order extends Model
         'status',
         'user_id',
         'delivery_time_slot',
+        'coupon_code',
     ];
 
     // Additional methods and relationships...

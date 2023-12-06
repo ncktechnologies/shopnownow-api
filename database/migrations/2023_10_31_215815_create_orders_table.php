@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('recipient_email');
             $table->string('status');
             $table->unsignedBigInteger('user_id')->nullable(); // User ID (optional)
+            $table->string('coupon_code')->nullable(); // Coupon code (optional)
             $table->timestamps();
         });
     }

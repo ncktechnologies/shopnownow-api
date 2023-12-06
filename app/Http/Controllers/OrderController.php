@@ -51,6 +51,7 @@ class OrderController extends Controller
             'recipient_email'=> 'required|string',
             'delivery_fee'=> 'required|numeric',
             'delivery_time_slot' => 'required|string',
+            'coupon_code' => 'nullable|string',
         ]);
 
         // Extract product IDs and quantities from the products array
