@@ -22,7 +22,7 @@ class SiteDataController extends Controller
             'contact_data' => 'required',
         ]);
 
-        $siteData = SiteData::first();
+        $siteData = SiteData::firstOrCreate([]);
         $siteData->update($data);
 
         return response(['site_data' => $siteData]);
