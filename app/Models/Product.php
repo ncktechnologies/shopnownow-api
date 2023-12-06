@@ -18,8 +18,13 @@ class Product extends Model
         'category_id',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function band()
     {
-        return $this->belongsTo(Band::class);
+        return $this->category->band;
     }
 }

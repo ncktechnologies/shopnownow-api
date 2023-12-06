@@ -21,7 +21,7 @@ class OrderController extends Controller
                 $productIds = json_decode($order->product_ids);
                 $quantities = json_decode($order->quantities);
 
-                $products = Product::with('band')->find($productIds);
+                $products = Product::with('category.band')->find($productIds);
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
                 }
@@ -51,7 +51,7 @@ class OrderController extends Controller
             'recipient_email'=> 'required|string',
             'delivery_fee'=> 'required|numeric',
             'delivery_time_slot' => 'required|string',
-            'coupon_code' => 'nullable|string',
+            'coupon_code'
         ]);
 
         // Extract product IDs and quantities from the products array
