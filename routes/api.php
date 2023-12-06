@@ -17,6 +17,7 @@ use App\Http\Controllers\SpecialRequestController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DeliveryTimeSlotController;
 use App\Http\Controllers\QuickGuideController;
+use App\Http\Controllers\SiteDataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -128,6 +129,10 @@ Route::prefix('v1')->group(function () {
             Route::put('/payment/{payment}', [PaymentController::class, 'update']);
             Route::delete('/payments/{payment}', [PaymentController::class, 'destroy']);
         });
+
+        Route::prefix('site-data')->group(function () {
+            Route::get('/site_data', [SiteDataController::class, 'show']);
+        });
     });
 
     Route::prefix('admin')->group(function () {
@@ -230,6 +235,11 @@ Route::prefix('v1')->group(function () {
             Route::post('/create', [QuickGuideController::class, 'store']); // Create a quick guide
             Route::put('update/{guide}', [QuickGuideController::class, 'update']); // Update quick guide
             Route::post('hide/{guide}', [QuickGuideController::class, 'toggleVisibility']); // Hide quick guide
+        });
+
+        Route::prefix('site-data')->group(function(){
+            Route::get('/site_data', [SiteDataController::class, 'show']);
+            Route::put('/site_data', [SiteDataController::class, 'update']);
         });
 
     });
