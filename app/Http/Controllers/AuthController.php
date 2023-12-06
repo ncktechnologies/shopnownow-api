@@ -29,7 +29,7 @@ class AuthController extends Controller
 
 
         // Generate a random 6-digit OTP
-        $otp = rand(100000, 999999);
+        $otp = rand(1000, 9999);
 
         Otp::create([
             'user_id' => $user->id,
@@ -56,7 +56,7 @@ class AuthController extends Controller
             return response(['message' => 'User not found']);
         }
 
-        $otp = rand(100000, 999999);
+        $otp = rand(1000, 9999);
 
         // Create a new OTP using the Otp model
         Otp::create([
@@ -116,7 +116,7 @@ class AuthController extends Controller
             return response(['message' => 'User not found']);
         }
 
-        $otp = rand(100000, 999999);
+        $otp = rand(1000, 9999);
 
         Otp::create([
             'user_id' => $user->id,
