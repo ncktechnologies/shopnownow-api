@@ -19,6 +19,10 @@ class BandController extends Controller
             'name' => 'required',
             'description' => 'nullable',
             'minimum' => 'nullable',
+            'bulk_discount_percentage' => 'nullable',
+            'bulk_discount_amount' => 'nullable',
+            'general_discount' => 'nullable',
+            'discount_enabled' => 'nullable',
         ]);
 
         $band = Band::create($request->all());
@@ -37,6 +41,10 @@ class BandController extends Controller
             'name' => 'required',
             'description' => 'nullable',
             'minimum' => 'nullable',
+            'bulk_discount_percentage' => 'nullable',
+            'bulk_discount_amount' => 'nullable',
+            'general_discount' => 'nullable',
+            'discount_enabled' => 'nullable',
         ]);
 
         $band->update($request->all());
