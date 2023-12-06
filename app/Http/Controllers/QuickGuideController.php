@@ -22,7 +22,7 @@ class QuickGuideController extends Controller
         ]);
 
         $path = $request->file('image')->store('quickguides');
-        $data['image_path'] = Storage::url($path);
+        $data['image_path'] = asset(Storage::url($path));
 
         $guide = QuickGuide::create($data);
 
@@ -39,7 +39,7 @@ class QuickGuideController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('quickguides');
-            $data['image_path'] = Storage::url($path);
+            $data['image_path'] = asset(Storage::url($path));
         }
 
         $guide->update($data);
