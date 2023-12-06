@@ -18,6 +18,7 @@ class AuthController extends Controller
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed',
             'phone_number' => 'nullable', // Add this line if you want to send an OTP to the user's phone number
+            'date_of_birth' => 'nullable|date',
         ]);
 
         $validatedData['password'] = bcrypt($request->password);

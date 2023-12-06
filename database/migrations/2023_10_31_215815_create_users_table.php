@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone_number')->nullable(); // Add the phone_number column
+            $table->date('date_of_birth')->nullable(); // Add the date_of_birth column
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->decimal('wallet', 8, 2)->default(0); // Add the wallet column
