@@ -17,4 +17,9 @@ class Product extends Model
         'availability',
         'category_id',
     ];
+
+    public function band()
+    {
+        return $this->belongsTo(Band::class);
+    }
 }
