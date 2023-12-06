@@ -21,8 +21,11 @@ class QuickGuideController extends Controller
             'image' => 'required|image',
         ]);
 
-        $path = $request->file('image')->store('quickguides');
-        $data['image_path'] = asset(Storage::url($path));
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('quickguides', 'public');
+            $data['image_path'] = asset('storage/' . $imagePath);
+        }
 
         $guide = QuickGuide::create($data);
 
@@ -38,15 +41,15 @@ class QuickGuideController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('quickguides');
-            $data['image_path'] = asset(Storage::url($path));
+            $image = $request->file('image');
+            $imagePath = $image->store('quickguides', 'public');
+            $data['image_path'] = asset('storage/' . $imagePath);
         }
 
         $guide->update($data);
 
         return response(['quick_guide' => $guide]);
     }
-
     public function toggleVisibility(QuickGuide $guide)
     {
         $guide->update(['is_hidden' => !$guide->is_hidden]);
