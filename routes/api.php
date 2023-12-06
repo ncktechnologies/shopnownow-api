@@ -16,6 +16,7 @@ use App\Http\Controllers\DeliveryLocationController;
 use App\Http\Controllers\SpecialRequestController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\DeliveryTimeSlotController;
+use App\Http\Controllers\QuickGuideController;
 use Illuminate\Support\Facades\Route;
 
 /*
