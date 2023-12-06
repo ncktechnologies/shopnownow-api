@@ -21,7 +21,7 @@ class OrderController extends Controller
                 $productIds = json_decode($order->product_ids);
                 $quantities = json_decode($order->quantities);
 
-                $products = Product::with('band')->find($productIds);
+                $products = Product::with('category.band')->find($productIds);
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
                 }
