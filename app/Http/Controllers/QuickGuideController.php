@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\QuickGuide;
+use Illuminate\Support\Facades\Storage;
 
 class QuickGuideController extends Controller
 {
@@ -20,7 +21,8 @@ class QuickGuideController extends Controller
             'image' => 'required|image',
         ]);
 
-        $data['image_path'] = $request->file('image')->store('quickguides');
+        $path = $request->file('image')->store('quickguides');
+        $data['image_path'] = Storage::url($path);
 
         $guide = QuickGuide::create($data);
 
@@ -36,7 +38,8 @@ class QuickGuideController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('quickguides');
+            $path = $request->file('image')->store('quickguides');
+            $data['image_path'] = Storage::url($path);
         }
 
         $guide->update($data);
