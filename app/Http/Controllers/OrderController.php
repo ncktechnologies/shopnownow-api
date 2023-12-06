@@ -24,6 +24,8 @@ class OrderController extends Controller
                 $products = Product::with('category.band')->find($productIds);
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
+                    $product->band = $product->category->band;
+                    unset($product->category);
                 }
                 $order->products = $products;
             }
