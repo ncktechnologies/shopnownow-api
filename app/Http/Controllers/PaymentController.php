@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Setting;
 
 class PaymentController extends Controller
 {
@@ -51,7 +52,11 @@ class PaymentController extends Controller
                 ]);
 
                 // Credit the user's loyalty points balance
-                $user->loyalty_points += $validatedData['amount'] * 0.005;
+                $loyaltyPointsValue = Setting::where('key',
+                    'loyalty_points_value'
+                )->first()->value;
+                $user->loyalty_points += $validatedData['amount'] * $loyaltyPointsValue;
+                // $user->loyalty_points += $validatedData['amount'] * 0.005;
                 $user->save();
 
                 // Create a new payment
@@ -85,7 +90,12 @@ class PaymentController extends Controller
                 }
 
                 // Credit the user's loyalty points balance
-                $user->loyalty_points += $validatedData['amount'] * 0.005;
+                $loyaltyPointsValue = Setting::where(
+                    'key',
+                    'loyalty_points_value'
+                )->first()->value;
+                $user->loyalty_points += $validatedData['amount'] * $loyaltyPointsValue;
+                // $user->loyalty_points += $validatedData['amount'] * 0.005;
                 $user->save();
 
                 // Create a new payment
