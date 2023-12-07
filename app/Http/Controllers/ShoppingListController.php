@@ -78,9 +78,11 @@ class ShoppingListController extends Controller
             $productIds = json_decode($shoppingList->product_ids);
             $quantities = json_decode($shoppingList->quantities);
 
-            $products = Product::find($productIds);
+            $products = Product::with('category.band')->find($productIds);
             foreach ($products as $index => $product) {
                 $product->quantity = $quantities[$index];
+                $product->band = $product->category->band;
+                $product->category = $product->category;
             }
             $shoppingList->product_ids = $products;
 
@@ -99,9 +101,11 @@ class ShoppingListController extends Controller
                 $productIds = json_decode($shoppingList->product_ids);
                 $quantities = json_decode($shoppingList->quantities);
 
-                $products = Product::find($productIds);
+                $products = Product::with('category.band')->find($productIds);
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
+                    $product->band = $product->category->band;
+                    $product->category = $product->category;
                 }
                 $shoppingList->product_ids = $products;
             }
