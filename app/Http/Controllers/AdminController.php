@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Band;
 use App\Models\Payment;
 use App\Models\SpecialRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
@@ -62,6 +63,20 @@ class AdminController extends Controller
         $bands = Band::all();
         $payments = Payment::all();
         $special_requests = SpecialRequest::all();
+
+        $totalValueOfOrders = $orders->sum('total');
+        $totalValueOfPayments = $payments->sum('amount');
+
+        $today = Carbon::today();
+        $ordersToday = $orders->where('created_at', '>=', $today);
+        $paymentsToday = $payments->where('created_at', '>=', $today);
+        $usersToday = $users->where('created_at', '>=', $today);
+
+        $totalOrdersToday = $ordersToday->count();
+        $totalValueOfOrdersToday = $ordersToday->sum('total');
+        $newUsersToday = $usersToday->count();
+        $totalValueOfPaymentsToday = $paymentsToday->sum('amount');
+
         $total = [
             'admins' => $admins->count(),
             'users' => $users->count(),
@@ -71,8 +86,14 @@ class AdminController extends Controller
             'bands' => $bands->count(),
             'payments' => $payments->count(),
             'special_requests' => $special_requests->count(),
-
+            'total_value_of_orders' => $totalValueOfOrders,
+            'total_value_of_payments' => $totalValueOfPayments,
+            'total_orders_today' => $totalOrdersToday,
+            'total_value_of_orders_today' => $totalValueOfOrdersToday,
+            'new_users_today' => $newUsersToday,
+            'total_value_of_payments_today' => $totalValueOfPaymentsToday,
         ];
+
         return response()->json($total);
     }
 
