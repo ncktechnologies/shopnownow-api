@@ -145,6 +145,10 @@ Route::prefix('v1')->group(function () {
             Route::post('/forgot_password', [AdminController::class, 'forgot_password']);
         });
 
+        Route::prefix('dashboard')->group(function () {
+            Route::get('/stats', [AdminController::class, 'stats']);
+        });
+
         Route::prefix('band')->group(function () { // Band routes
             Route::get('/list', [BandController::class, 'index']); // Get all bands
             Route::post('/create', [BandController::class, 'create']); // Create a band
