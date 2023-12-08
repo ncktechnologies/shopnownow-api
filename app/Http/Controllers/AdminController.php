@@ -64,7 +64,7 @@ class AdminController extends Controller
         $payments = Payment::all();
         $special_requests = SpecialRequest::all();
 
-        $totalValueOfOrders = $orders->sum('total');
+        $totalValueOfOrders = $orders->sum('price');
         $totalValueOfPayments = $payments->sum('amount');
 
         $today = Carbon::today();
@@ -73,7 +73,7 @@ class AdminController extends Controller
         $usersToday = $users->where('created_at', '>=', $today);
 
         $totalOrdersToday = $ordersToday->count();
-        $totalValueOfOrdersToday = $ordersToday->sum('total');
+        $totalValueOfOrdersToday = $ordersToday->sum('price');
         $newUsersToday = $usersToday->count();
         $totalValueOfPaymentsToday = $paymentsToday->sum('amount');
 
