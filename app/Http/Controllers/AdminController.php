@@ -97,4 +97,27 @@ class AdminController extends Controller
         return response()->json($total);
     }
 
+    public function create(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:admins',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $data['password'] = Hash::make($data['password']);
+
+        $admin = Admin::create($data);
+
+        return response()->json(['admin' => $admin], 201);
+    }
+
+
+    public function delete(Admin $admin)
+    {
+        $admin->delete();
+
+        return response()->json(['message' => 'Admin deleted successfully']);
+    }
+
 }

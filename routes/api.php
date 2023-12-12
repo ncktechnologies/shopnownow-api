@@ -143,6 +143,12 @@ Route::prefix('v1')->group(function () {
             Route::post('/login', [AdminController::class, 'login']);
             Route::post('/logout', [AdminController::class, 'logout']);
             Route::post('/forgot_password', [AdminController::class, 'forgot_password']);
+
+        });
+
+        Route::prefix('admin')->group(function () {
+            Route::post('/create', [AdminController::class, 'create']);
+            Route::delete('/delete/{admin}', [AdminController::class, 'delete']);
         });
 
         Route::prefix('dashboard')->group(function () {
@@ -254,6 +260,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [SettingsController::class, 'store']);
             Route::put('/{key}', [SettingsController::class, 'update']);
         });
+
+
 
     });
 
