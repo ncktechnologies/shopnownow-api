@@ -18,7 +18,7 @@ class SettingsController extends Controller
 
             return response()->json(['message' => 'Setting updated successfully']);
         } else {
-            return response()->json(['message' => $key], 404);
+            return response()->json(['message' => $request], 404);
         }
     }
 
