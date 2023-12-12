@@ -38,8 +38,13 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = Setting::all();
+        $settingsArray = [];
 
-        return response()->json(['settings' => $settings]);
+        foreach ($settings as $setting) {
+            $settingsArray[] = ['key' => $setting->key, 'value' => $setting->value];
+        }
+
+        return response()->json(['settings' => $settingsArray]);
     }
     public function store(Request $request)
     {
