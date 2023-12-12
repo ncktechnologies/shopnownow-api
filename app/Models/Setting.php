@@ -12,4 +12,11 @@ class Setting extends Model
 
     public $timestamps = false;
     protected $fillable = ['key', 'value'];
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'key';
 }
