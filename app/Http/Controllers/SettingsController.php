@@ -41,7 +41,7 @@ class SettingsController extends Controller
         $settingsArray = [];
 
         foreach ($settings as $setting) {
-            $settingsArray[] = ['key' => $setting->key, 'value' => $setting->value];
+            $settingsArray[] = $setting->key;
         }
 
         return response()->json(['settings' => $settingsArray]);
