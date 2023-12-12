@@ -7,9 +7,8 @@ use App\Models\Setting;
 
 class SettingsController extends Controller
 {
-    public function update(Request $request)
+    public function update(Request $request, $key)
     {
-        $key = $request->get('key');
         $setting = Setting::where('key', $key)->first();
 
         if ($setting) {
