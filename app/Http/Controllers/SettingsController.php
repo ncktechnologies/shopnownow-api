@@ -7,13 +7,19 @@ use App\Models\Setting;
 
 class SettingsController extends Controller
 {
-    public function update(Request $request, $key)
+    public function update(Request $request)
     {
+        $key = $request->get('key');
         $setting = Setting::where('key', $key)->first();
-        $setting->value = $request->get('value');
-        $setting->save();
 
-        return response()->json(['message' => 'Setting updated successfully']);
+        if ($setting) {
+            $setting->value = $request->get('value');
+            $setting->save();
+
+            return response()->json(['message' => 'Setting updated successfully']);
+        } else {
+            return response()->json(['message' => 'Setting not found'], 404);
+        }
     }
 
     public function show($key)
