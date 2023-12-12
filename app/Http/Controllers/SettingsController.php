@@ -12,12 +12,12 @@ class SettingsController extends Controller
         $setting = Setting::where('key', $key)->first();
 
         if ($setting) {
-            $setting->value = $request->get('value');
+            $setting->value = 0.001; //$request->get('value');
             $setting->save();
 
             return response()->json(['message' => 'Setting updated successfully']);
         } else {
-            return response()->json(['message' => $request], 404);
+            return response()->json(['message' => $request->get('value')], 404);
         }
     }
 
