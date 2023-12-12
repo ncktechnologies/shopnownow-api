@@ -13,6 +13,11 @@ class QuickGuideController extends Controller
         return QuickGuide::where('is_hidden', false)->get();
     }
 
+    public function indexAdmin()
+    {
+        return QuickGuide::all();
+        }
+
     public function store(Request $request)
     {
         $data = $request->validate([

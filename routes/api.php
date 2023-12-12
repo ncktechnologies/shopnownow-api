@@ -236,7 +236,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('quickguide')->group(function () {
-            Route::get('/list', [QuickGuideController::class, 'index']); // Get all quick guides
+            Route::get('/list', [QuickGuideController::class, 'indexAdmin']); // Get all quick guides
             Route::post('/create', [QuickGuideController::class, 'store']); // Create a quick guide
             Route::put('update/{guide}', [QuickGuideController::class, 'update']); // Update quick guide
             Route::post('hide/{guide}', [QuickGuideController::class, 'toggleVisibility']); // Hide quick guide
