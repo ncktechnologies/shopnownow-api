@@ -10,7 +10,7 @@ class SettingsController extends Controller
     public function update(Request $request, $key)
     {
         $setting = Setting::where('key', $key)->first();
-        
+
         $data = $request->validate([
             'value' => 'required|numeric',
         ]);
@@ -26,9 +26,13 @@ class SettingsController extends Controller
 
     public function show($key)
     {
-        $setting = Setting::where('key', $key)->first();
+        $setting = Setting::find($key);
 
-        return response()->json(['setting' => $setting]);
+        if ($setting) {
+            return response()->json(['setting' => $setting]);
+        } else {
+            return response()->json(['message' => 'Setting not found'], 404);
+        }
     }
 
     public function index()
@@ -37,7 +41,6 @@ class SettingsController extends Controller
 
         return response()->json(['settings' => $settings]);
     }
-
     public function store(Request $request)
     {
         $data = $request->validate([
