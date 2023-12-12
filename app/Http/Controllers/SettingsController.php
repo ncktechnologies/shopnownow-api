@@ -9,43 +9,30 @@ class SettingsController extends Controller
 {
     public function update(Request $request, $key)
     {
-        $setting = Setting::where('key', $key)->first();
-
         $data = $request->validate([
             'value' => 'required|numeric',
         ]);
-        if ($setting) {
-            $setting->value = $data['value'];
-            $setting->save();
 
-            return response()->json(['message' => 'Setting updated successfully', 200]);
-        } else {
-            return response()->json(['message' => 'Setting not updated', 404]);
-        }
+        $setting = Setting::where('key', $key)->firstOrFail();
+        $setting->update($data);
+
+        return response()->json(['message' => 'Setting updated successfully'], 200);
     }
 
     public function show($key)
     {
-        $setting = Setting::find($key);
+        $setting = Setting::where('key', $key)->firstOrFail();
 
-        if ($setting) {
-            return response()->json(['setting' => $setting]);
-        } else {
-            return response()->json(['message' => 'Setting not found'], 404);
-        }
+        return response()->json(['setting' => $setting]);
     }
 
     public function index()
     {
         $settings = Setting::all();
-        $settingsArray = [];
 
-        foreach ($settings as $setting) {
-            $settingsArray[] = ['key' => $setting->key, 'value' => $setting->value];
-        }
-
-        return response()->json(['settings' => $settingsArray]);
+        return response()->json(['settings' => $settings]);
     }
+
     public function store(Request $request)
     {
         $data = $request->validate([

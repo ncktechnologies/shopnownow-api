@@ -10,7 +10,6 @@ class Setting extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
     protected $fillable = ['key', 'value'];
 
     /**
@@ -18,5 +17,5 @@ class Setting extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'key';
+    protected $primaryKey = 'id';
 }
