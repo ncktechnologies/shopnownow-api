@@ -10,16 +10,17 @@ class SettingsController extends Controller
     public function update(Request $request, $key)
     {
         $setting = Setting::where('key', $key)->first();
+        
         $data = $request->validate([
             'value' => 'required|numeric',
         ]);
         if ($setting) {
-            $setting->value = 0.001; //$request->get('value');
+            $setting->value = $data['value'];
             $setting->save();
 
-            return response()->json(['message' => $data['value'], 200]);
+            return response()->json(['message' => 'Setting updated successfully', 200]);
         } else {
-            return response()->json(['message' => $request->get('value')], 404);
+            return response()->json(['message' => 'Setting not updated', 404]);
         }
     }
 
