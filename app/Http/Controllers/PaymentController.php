@@ -176,8 +176,8 @@ class PaymentController extends Controller
     public function index()
     {
         try {
-            // Fetch all payments
-            $payments = Payment::all();
+            // Fetch all payments sorted by created_at in descending order
+            $payments = Payment::orderBy('created_at', 'desc')->get();
 
             // Return the payments as a JSON response
             return response()->json(['payments' => $payments]);
@@ -185,7 +185,6 @@ class PaymentController extends Controller
             return response()->json(['message' => 'An error occurred while loading the payments', 'error' => $e->getMessage()], 500);
         }
     }
-
 
 
 }

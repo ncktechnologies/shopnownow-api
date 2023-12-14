@@ -15,8 +15,8 @@ class QuickGuideController extends Controller
 
     public function indexAdmin()
     {
-        return QuickGuide::all();
-        }
+        return QuickGuide::orderBy('created_at', 'desc')->get();
+    }
 
     public function store(Request $request)
     {
