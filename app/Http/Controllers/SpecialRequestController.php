@@ -10,7 +10,7 @@ class SpecialRequestController extends Controller
     public function index()
     {
         try {
-            $requests = SpecialRequest::all();
+            $requests = SpecialRequest::orderBy('created_at', 'desc')->get();
             return response()->json(['requests' => $requests], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the requests', 'error' => $e->getMessage()], 500);

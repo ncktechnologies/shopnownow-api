@@ -194,7 +194,7 @@ class OrderController extends Controller
 
     public function getAllOrdersAdmin(){
         try {
-            $orders = Order::get();
+            $orders = Order::orderBy('created_at', 'desc')->get();
 
             foreach ($orders as $order) {
                 $productIds = json_decode($order->product_ids);

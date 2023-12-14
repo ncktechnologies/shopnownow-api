@@ -11,7 +11,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::with('band')->get();
+            $categories = Category::with('band')->orderBy('created_at', 'desc')->get();
             return response()->json($categories);
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred while retrieving the categories', 'error' => $e->getMessage()], 500);

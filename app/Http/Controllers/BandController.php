@@ -9,10 +9,10 @@ class BandController extends Controller
 {
     public function index()
     {
-        $bands = Band::all();
+        $bands = Band::orderBy('created_at', 'desc')->get();
         return response()->json($bands);
     }
-
+    
     public function create(Request $request)
     {
         $request->validate([

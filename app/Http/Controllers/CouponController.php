@@ -63,8 +63,8 @@ class CouponController extends Controller
     public function list()
     {
         try {
-            // Get all coupons
-            $coupons = Coupon::all();
+            // Get all coupons sorted by created_at in descending order
+            $coupons = Coupon::orderBy('created_at', 'desc')->get();
 
             // Return the coupons data
             return response()->json(['coupons' => $coupons], 200);

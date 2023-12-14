@@ -29,9 +29,8 @@ class UserController extends Controller
 
     public function index()
     {
-        // Fetch all users with their orders
-        $users = User::with('orders')->get();
-        // $users = User::all();
+        // Fetch all users with their orders, sorted by created_at in descending order
+        $users = User::with('orders')->orderBy('created_at', 'desc')->get();
 
         // Return the users as a JSON response
         return response()->json(['users' => $users]);
