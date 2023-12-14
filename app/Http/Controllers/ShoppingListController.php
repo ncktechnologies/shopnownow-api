@@ -95,7 +95,7 @@ class ShoppingListController extends Controller
     public function index()
     {
         try {
-            $shoppingLists = ShoppingList::where('user_id', Auth::id())->get();
+            $shoppingLists = ShoppingList::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
 
             foreach ($shoppingLists as $shoppingList) {
                 $productIds = json_decode($shoppingList->product_ids);
