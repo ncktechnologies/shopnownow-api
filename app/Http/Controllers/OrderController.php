@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function index()
     {
         try {
-            $orders = Order::where('user_id', Auth::id())->get();
+            $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
 
             foreach ($orders as $order) {
                 $productIds = json_decode($order->product_ids);
