@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('delivery_time_slots', function (Blueprint $table) {
             $table->id();
-            $table->string('delivery_time');
+            $table->string('start_time');
+            $table->string('end_time');
             $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
