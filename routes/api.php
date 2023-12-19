@@ -164,7 +164,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('category')->group(function () { // Category routes
-            Route::get('/list', [CategoryController::class, 'index']); // Get all categories
+            Route::get('/list', [CategoryController::class, 'indexAdmin']); // Get all categories
             Route::post('/create', [CategoryController::class, 'create']); // Create a category
             Route::get('show/{category}', [CategoryController::class, 'show']); // Get category details
             Route::post('update/{category}', [CategoryController::class, 'update']); // Update category
