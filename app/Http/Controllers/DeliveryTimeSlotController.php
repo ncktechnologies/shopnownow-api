@@ -15,10 +15,12 @@ class DeliveryTimeSlotController extends Controller
 
     public function indexByBand(Request $request)
     {
+        $request->validate([
+            'band_id' => 'required|integer',
+        ]);
+
         $bandId = $request->get('band_id');
-        $timeSlots = DeliveryTimeSlot::when($bandId, function ($query, $bandId) {
-            return $query->where('band_id', $bandId);
-        })->get();
+        $timeSlots = DeliveryTimeSlot::where('band_id', $bandId)->get();
 
         return response()->json(['timeSlots' => $timeSlots]);
     }
