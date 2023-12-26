@@ -13,6 +13,16 @@ class DeliveryTimeSlotController extends Controller
         return response()->json(['timeSlots' => $timeSlots]);
     }
 
+    public function indexByBand(Request $request)
+    {
+        $bandId = $request->get('band_id');
+        $timeSlots = DeliveryTimeSlot::when($bandId, function ($query, $bandId) {
+            return $query->where('band_id', $bandId);
+        })->get();
+
+        return response()->json(['timeSlots' => $timeSlots]);
+    }
+
     public function store(Request $request)
     {
         $timeSlot = DeliveryTimeSlot::create($request->all());

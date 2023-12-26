@@ -94,7 +94,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/get-locations/{band_id}', [DeliveryLocationController::class, 'getByBandId']);
 
         Route::prefix('delivery-time-slots')->group(function () {
-            Route::get('/list', [DeliveryTimeSlotController::class, 'index']); // Get all delivery time slots
+            // Route::get('/list', [DeliveryTimeSlotController::class, 'index']); // Get all delivery time slots
+            Route::get('/list', [DeliveryTimeSlotController::class, 'indexByBand']); // Get all delivery time slots y bands
         });
 
         Route::prefix('category')->group(function () { // Category routes
