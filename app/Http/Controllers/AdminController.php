@@ -148,6 +148,21 @@ class AdminController extends Controller
             return $item;
         });
 
+        $totalSalesPerProduct = $totalSalesPerProduct->map(function ($item) {
+            $productIds = json_decode($item->product_id);
+            $productIds = array_unique($productIds); // Remove duplicate product IDs
+
+            $productNames = array_map(function ($id) {
+                $product = Product::find($id);
+                return $product ? $product->name : null;
+            }, $productIds);
+
+            $item->product_name = implode(', ', array_filter($productNames));
+            unset($item->product_id);
+
+            return $item;
+        });
+
     // Add these to your total array
     $total['top_selling_products'] = $topSellingProducts;
     $total['total_sales_per_product'] = $totalSalesPerProduct;
