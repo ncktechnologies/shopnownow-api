@@ -135,6 +135,7 @@ class AdminController extends Controller
 
         $topSellingProducts = $topSellingProducts->map(function ($item) {
             $productIds = json_decode($item->product_id);
+            $productIds = array_unique($productIds); // Remove duplicate product IDs
 
             $productNames = array_map(function ($id) {
                 $product = Product::find($id);
@@ -146,7 +147,7 @@ class AdminController extends Controller
 
             return $item;
         });
-        
+
     // Add these to your total array
     $total['top_selling_products'] = $topSellingProducts;
     $total['total_sales_per_product'] = $totalSalesPerProduct;
