@@ -100,22 +100,35 @@ class AdminController extends Controller
     }
 
     public function getAnalytics(){
-    // 1. Top selling products (Top 1000)
-    $topSellingProducts = DB::table('orders')
-        ->join('products', 'orders.product_id', '=', 'products.id')
-        ->select('products.name', 'products.price', DB::raw('count(*) as total'))
-        ->groupBy('products.name', 'products.price')
-        ->orderBy('total', 'desc')
-        ->limit(1000)
-        ->get();
+        // Get all distinct product IDs
+        $productIds = DB::table('orders')
+            ->select(DB::raw('json_extract(product_ids, "$[*]") as product_id'))
+            ->distinct()
+            ->pluck('product_id');
 
-    // 2. Total sales for each product (total sold and amount)
-    $totalSalesPerProduct = DB::table('orders')
-        ->join('products', 'orders.product_id', '=', 'products.id')
-        ->select('products.name', 'products.price', DB::raw('count(*) as total_sold'), DB::raw('sum(orders.price) as total_amount'))
-        ->groupBy('products.name', 'products.price')
-        ->get();
+        $topSellingProducts = [];
+        $totalSalesPerProduct = [];
 
+        foreach ($productIds as $productId) {
+            // 1. Top selling products (Top 1000)
+            $topSellingProducts[] = DB::table('orders')
+                ->join('products', 'products.id', '=', DB::raw($productId))
+                ->select('products.name', 'products.price', DB::raw('count(*) as total'))
+                ->whereRaw('json_contains(product_ids, ?)', [$productId])
+                ->groupBy('products.name', 'products.price')
+                ->orderBy('total', 'desc')
+                ->limit(1000)
+                ->get();
+
+            // 2. Total sales for each product (total sold and amount)
+            $totalSalesPerProduct[] = DB::table('orders')
+                ->join('products', 'products.id', '=', DB::raw($productId))
+                ->select('products.name', 'products.price', DB::raw('count(*) as total_sold'), DB::raw('sum(orders.price) as total_amount'))
+                ->whereRaw('json_contains(product_ids, ?)', [$productId])
+                ->groupBy('products.name', 'products.price')
+                ->get();
+        }
+        
     $topSellingLocations = DB::table('orders')
         ->select('delivery_info', DB::raw('count(*) as total'))
         ->groupBy('delivery_info')
