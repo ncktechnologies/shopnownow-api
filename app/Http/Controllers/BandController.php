@@ -12,7 +12,7 @@ class BandController extends Controller
         $bands = Band::orderBy('created_at', 'desc')->get();
         return response()->json($bands);
     }
-    
+
     public function create(Request $request)
     {
         $request->validate([
@@ -23,6 +23,7 @@ class BandController extends Controller
             'bulk_discount_amount' => 'nullable',
             'general_discount' => 'nullable',
             'discount_enabled' => 'nullable',
+            'free_delivery_threshold' => 'nullable', // New line
         ]);
 
         $band = Band::create($request->all());
@@ -45,6 +46,7 @@ class BandController extends Controller
             'bulk_discount_amount' => 'nullable',
             'general_discount' => 'nullable',
             'discount_enabled' => 'nullable',
+            'free_delivery_threshold' => 'nullable', // New line
         ]);
 
         $band->update($request->all());

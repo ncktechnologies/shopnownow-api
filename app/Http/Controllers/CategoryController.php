@@ -43,6 +43,7 @@ class CategoryController extends Controller
             'discount_value' => 'nullable|numeric',
             'thumbnail' => 'nullable|image',
             'band_id' => 'required|exists:bands,id', // Add this line
+            'order' => 'nullable|integer',
         ]);
 
         $data = $request->all();
@@ -72,6 +73,8 @@ class CategoryController extends Controller
                 'discount_value' => 'nullable|numeric',
                 'thumbnail' => 'nullable|image',
                 'band_id' => 'required|exists:bands,id',
+                'order' => 'nullable|integer',
+
             ]);
 
             $data = $request->all();

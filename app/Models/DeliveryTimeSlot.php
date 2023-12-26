@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryTimeSlot extends Model
 {
     use HasFactory;
-    protected $fillable = ['start_time', 'end_time', 'is_available'];
+    protected $fillable = ['start_time', 'end_time', 'is_available','band_id',];
 }

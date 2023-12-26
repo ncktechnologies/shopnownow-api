@@ -103,9 +103,64 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+            $product->update($request->all());
+
+            return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while updating the product', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function filterProducts(Request $request)
+    {
+        try {
+            $products = Product::where('availability', true);
+
+            if ($request->has('category_id')) {
+                $products = $products->where('category_id', $request->category_id);
+            }
+
+            if ($request->has('band_id')) {
+                $products = $products->whereHas('category', function ($query) use ($request) {
+                    $query->where('band_id', $request->band_id);
+                });
+            }
+
+            if ($request->has('min_price')) {
+                $products = $products->where('price', '>=', $request->min_price);
+            }
+
+            if ($request->has('max_price')) {
+                $products = $products->where('price', '<=', $request->max_price);
+            }
+
+            if ($request->has('search')) {
+                $products = $products->where('name', 'LIKE', "%{$request->search}%");
+            }
+
+            $products = $products->orderBy('created_at', 'desc')->get();
+
+            return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the products', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function toggleAvailability($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $product->availability = !$product->availability;
+            $product->save();
+
+            return response()->json(['message' => 'Product availability updated successfully', 'product' => $product], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while updating the product availability', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**

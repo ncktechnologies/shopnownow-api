@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('start_time');
             $table->string('end_time');
             $table->boolean('is_available')->default(true);
+            $table->unsignedBigInteger('band_id'); // Add the band_id column
+            $table->foreign('band_id')->references('id')->on('bands'); // Add the foreign key constraint
             $table->timestamps();
         });
     }

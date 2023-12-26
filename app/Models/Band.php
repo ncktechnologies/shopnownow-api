@@ -9,5 +9,5 @@ class Band extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'minimum', 'bulk_discount_percentage', 'bulk_discount_amount', 'general_discount', 'discount_enabled'];
+    protected $fillable = ['name', 'description', 'minimum', 'bulk_discount_percentage', 'bulk_discount_amount', 'general_discount', 'discount_enabled', 'free_delivery_threshold'];
 }

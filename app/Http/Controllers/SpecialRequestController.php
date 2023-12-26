@@ -16,6 +16,23 @@ class SpecialRequestController extends Controller
             return response()->json(['message' => 'An error occurred while retrieving the requests', 'error' => $e->getMessage()], 500);
         }
     }
+    
+    public function filterRequestsByDate(Request $request)
+    {
+        try {
+            $requests = SpecialRequest::query();
+
+            if ($request->has('start_date') && $request->has('end_date')) {
+                $requests = $requests->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            }
+
+            $requests = $requests->orderBy('created_at', 'desc')->get();
+
+            return response()->json(['requests' => $requests], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the requests', 'error' => $e->getMessage()], 500);
+        }
+    }
 
     public function store(Request $request)
     {

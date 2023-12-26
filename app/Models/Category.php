@@ -19,6 +19,7 @@ class Category extends Model
         'thumbnail',
         'hidden',
         'band_id', // Add this line
+        'order',
     ];
 
     public function band()

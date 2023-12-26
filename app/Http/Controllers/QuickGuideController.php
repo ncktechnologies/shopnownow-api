@@ -61,4 +61,11 @@ class QuickGuideController extends Controller
 
         return response(['quick_guide' => $guide]);
     }
+
+    public function destroy(QuickGuide $guide)
+    {
+        $guide->delete();
+
+        return response(['message' => 'Quick guide deleted']);
+    }
 }

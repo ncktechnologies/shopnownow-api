@@ -30,17 +30,17 @@ class AuthController extends Controller
 
 
         // Generate a random 6-digit OTP
-        $otp = rand(1000, 9999);
+        // $otp = rand(1000, 9999);
 
-        Otp::create([
-            'user_id' => $user->id,
-            'otp' => $otp,
-        ]);
-        // Send the OTP to the user's email
-        Mail::raw("Your OTP is: $otp", function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('OTP for registration');
-        });
+        // Otp::create([
+        //     'user_id' => $user->id,
+        //     'otp' => $otp,
+        // ]);
+        // // Send the OTP to the user's email
+        // Mail::raw("Your OTP is: $otp", function ($message) use ($user) {
+        //     $message->to($user->email);
+        //     $message->subject('OTP for registration');
+        // });
 
         return response([ 'user' => $user, 'access_token' => $token]);
     }

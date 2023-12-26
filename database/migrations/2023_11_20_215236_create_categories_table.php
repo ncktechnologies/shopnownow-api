@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('hidden')->default(false);
             $table->unsignedBigInteger('band_id'); // Add the band_id column
             $table->foreign('band_id')->references('id')->on('bands'); // Add the foreign key constraint
+            $table->integer('order')->default(1);
             $table->timestamps();
         });
     }

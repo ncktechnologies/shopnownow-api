@@ -19,6 +19,7 @@ use App\Http\Controllers\DeliveryTimeSlotController;
 use App\Http\Controllers\QuickGuideController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SiteDataController;
+use App\Http\Controllers\AppNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -153,6 +154,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::get('/stats', [AdminController::class, 'stats']);
+            Route::get('/analytics', [AdminController::class, 'getAnalytics']);
         });
 
         Route::prefix('band')->group(function () { // Band routes
@@ -174,9 +176,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('product')->group(function(){
             Route::get('/list', [ProductController::class, 'index']); // Get all products
             Route::post('/create', [ProductController::class, 'create']); // Create a product
+            Route::post('/filter', [ProductController::class, 'filterProducts']); // Filter products
             Route::get('show/{product}', [ProductController::class, 'show']); // Get product details
             Route::put('update/{product}', [ProductController::class, 'update']); // Update product
-            Route::post('hide/{product}', [ProductController::class, 'hide']); // Hide product
+            Route::post('toggle/{product}', [ProductController::class, 'toggleAvailability']); // Hide product
 
         });
 
@@ -185,6 +188,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/order/{order}', [OrderController::class, 'getOneOrderAdmin']); // Get order details
             Route::put('/update/{order}', [OrderController::class, 'updateOrderAdmin']); // Update order
             Route::delete('/delete/{order}', [OrderController::class, 'deleteOrderAdmin']); // Delete order
+            Route::post('filter', [OrderController::class, 'filterOrders']); // Filter orders
         });
 
         Route::prefix('coupons')->group(function () {
@@ -212,6 +216,7 @@ Route::prefix('v1')->group(function () {
             Route::post('update/{timeSlot}', [DeliveryTimeSlotController::class, 'update']); // Update delivery time slot
             Route::post('hide/{timeSlot}', [DeliveryTimeSlotController::class, 'hide']); // Hide delivery time slot
             Route::post('unhide/{timeSlot}', [DeliveryTimeSlotController::class, 'unhide']); // Hide delivery time slot
+            Route::delete('delete/{timeSlot}', [DeliveryTimeSlotController::class, 'destroy']); // Delete delivery time slot
         });
 
         Route::prefix('location')->group(function () { // Location routes
@@ -226,6 +231,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/list', [SpecialRequestController::class, 'index']);
             Route::get('/list/{id}', [SpecialRequestController::class, 'show']);
             Route::delete('/delete/{id}', [SpecialRequestController::class, 'destroy']);
+            Route::post('/filter', [SpecialRequestController::class, 'filterRequestsByDate']);
         });
 
         Route::prefix('users')->group(function() {
@@ -246,6 +252,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/create', [QuickGuideController::class, 'store']); // Create a quick guide
             Route::put('update/{guide}', [QuickGuideController::class, 'update']); // Update quick guide
             Route::post('hide/{guide}', [QuickGuideController::class, 'toggleVisibility']); // Hide quick guide
+            Route::delete('delete/{guide}', [QuickGuideController::class, 'destroy']); // Delete quick guide
         });
 
         Route::prefix('site-data')->group(function(){
@@ -261,6 +268,11 @@ Route::prefix('v1')->group(function () {
             Route::put('/{key}', [SettingsController::class, 'update']);
         });
 
+        Route::prefix('app-notifications')->group(function () {
+            Route::post('send-to-user/{user}', [AppNotificationController::class, 'sendToUser']);
+            Route::post('send-to-all-users', [AppNotificationController::class, 'sendToAllUsers']);
+            Route::post('send-to-users-by-id', [AppNotificationController::class, 'sendToUsersById']);
+        });
 
 
     });

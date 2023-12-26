@@ -54,6 +54,7 @@ class OrderController extends Controller
             'delivery_fee'=> 'required|numeric',
             'delivery_time_slot' => 'required|string',
             'coupon_code' => 'string',
+            'scheduled_date' => 'date',
         ]);
 
         // Extract product IDs and quantities from the products array
@@ -128,6 +129,7 @@ class OrderController extends Controller
                 'recipient_email' => $oldOrder->recipient_email,
                 'delivery_fee' => $oldOrder->delivery_fee,
                 'delivery_time_slot' => $oldOrder->delivery_time_slot,
+                'scheduled_date' => $oldOrder->scheduled_date,
             ];
 
             // Generate an order ID
@@ -201,10 +203,13 @@ class OrderController extends Controller
                 $quantities = json_decode($order->quantities);
 
                 $products = Product::find($productIds);
+                $totalPrice = 0;
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
+                    $totalPrice += $product->price * $product->quantity;
                 }
                 $order->products = $products;
+                $order->total_price = $totalPrice + $order->tax + $order->delivery_fee;
             }
 
             return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
@@ -219,9 +224,13 @@ class OrderController extends Controller
         $quantities = json_decode($order->quantities);
 
         $products = Product::find($productIds);
+        $totalPrice = 0;
         foreach ($products as $index => $product) {
             $product->quantity = $quantities[$index];
+            $totalPrice += $product->price * $product->quantity;
         }
+        $order->products = $products;
+        $order->total_price = $totalPrice + $order->tax + $order->delivery_fee;
 
         return response()->json(['order' => $order, 'products' => $products]);
     }
@@ -243,5 +252,26 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json(['message' => 'Order deleted successfully']);
+    }
+
+    public function filterOrders(Request $request)
+    {
+        try {
+            $orders = Order::query();
+
+            if ($request->has('start_date') && $request->has('end_date')) {
+                $orders = $orders->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            }
+
+            if ($request->has('status')) {
+                $orders = $orders->where('status', $request->status);
+            }
+
+            $orders = $orders->get();
+
+            return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while retrieving the orders', 'error' => $e->getMessage()], 500);
+        }
     }
 }
