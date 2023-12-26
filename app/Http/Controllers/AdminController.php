@@ -133,6 +133,20 @@ class AdminController extends Controller
     $totalRevenueAllTime = DB::table('orders')->sum('price');
     $totalRevenueThisYear = DB::table('orders')->whereYear('created_at', '=', date('Y'))->sum('price');
 
+        $topSellingProducts = $topSellingProducts->map(function ($item) {
+            $productIds = json_decode($item->product_id);
+
+            $productNames = array_map(function ($id) {
+                $product = Product::find($id);
+                return $product ? $product->name : null;
+            }, $productIds);
+
+            $item->product_name = implode(', ', array_filter($productNames));
+            unset($item->product_id);
+
+            return $item;
+        });
+        
     // Add these to your total array
     $total['top_selling_products'] = $topSellingProducts;
     $total['total_sales_per_product'] = $totalSalesPerProduct;
