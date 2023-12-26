@@ -104,7 +104,10 @@ class AdminController extends Controller
         $productIds = DB::table('orders')
             ->select(DB::raw('json_extract(product_ids, "$[*]") as product_id'))
             ->distinct()
-            ->pluck('product_id');
+            ->get()
+            ->pluck('product_id')
+            ->flatten()
+            ->unique();
 
         $topSellingProducts = [];
         $totalSalesPerProduct = [];
@@ -128,7 +131,6 @@ class AdminController extends Controller
                 ->groupBy('products.name', 'products.price')
                 ->get();
         }
-        
     $topSellingLocations = DB::table('orders')
         ->select('delivery_info', DB::raw('count(*) as total'))
         ->groupBy('delivery_info')
