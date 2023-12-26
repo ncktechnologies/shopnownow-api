@@ -101,8 +101,9 @@ class AdminController extends Controller
 
     public function getAnalytics(){
     // 1. Top selling products (Top 1000)
+    // 1. Top selling products (Top 1000)
     $topSellingProducts = DB::table('orders')
-        ->select('product_id', DB::raw('count(*) as total'))
+        ->select(DB::raw('json_extract(product_ids, "$[*]") as product_id'), DB::raw('count(*) as total'))
         ->groupBy('product_id')
         ->orderBy('total', 'desc')
         ->limit(1000)
@@ -110,7 +111,7 @@ class AdminController extends Controller
 
     // 2. Total sales for each product (total sold and amount)
     $totalSalesPerProduct = DB::table('orders')
-        ->select('product_id', DB::raw('count(*) as total_sold'), DB::raw('sum(price) as total_amount'))
+        ->select(DB::raw('json_extract(product_ids, "$[*]") as product_id'), DB::raw('count(*) as total_sold'), DB::raw('sum(price) as total_amount'))
         ->groupBy('product_id')
         ->get();
 
