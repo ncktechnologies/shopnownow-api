@@ -23,7 +23,7 @@ class CategoryController extends Controller
         try {
             $categories = Category::with('band')
                 ->where('hidden', 0)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('order', 'asc') // Sort by 'order' in ascending order
                 ->get();
             return response()->json($categories);
         } catch (Exception $e) {
