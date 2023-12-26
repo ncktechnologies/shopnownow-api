@@ -113,23 +113,33 @@ class AdminController extends Controller
         $totalSalesPerProduct = [];
 
         foreach ($productIds as $productId) {
-            // 1. Top selling products (Top 1000)
-            $topSellingProducts[] = DB::table('orders')
-                ->join('products', 'products.id', '=', DB::raw($productId))
-                ->select('products.name', 'products.price', DB::raw('count(*) as total'))
-                ->whereRaw('json_contains(product_ids, ?)', [$productId])
-                ->groupBy('products.name', 'products.price')
-                ->orderBy('total', 'desc')
-                ->limit(1000)
-                ->get();
+            $product = Product::find($productId);
 
-            // 2. Total sales for each product (total sold and amount)
-            $totalSalesPerProduct[] = DB::table('orders')
-                ->join('products', 'products.id', '=', DB::raw($productId))
-                ->select('products.name', 'products.price', DB::raw('count(*) as total_sold'), DB::raw('sum(orders.price) as total_amount'))
-                ->whereRaw('json_contains(product_ids, ?)', [$productId])
-                ->groupBy('products.name', 'products.price')
-                ->get();
+            if ($product) {
+                // 1. Top selling products (Top 1000)
+                $topSellingProducts[] = DB::table('orders')
+                    ->select(DB::raw('count(*) as total'))
+                    ->whereRaw('json_contains(product_ids, ?)', [$productId])
+                    ->orderBy('total', 'desc')
+                    ->limit(1000)
+                    ->get()
+                    ->map(function ($item) use ($product) {
+                        $item->name = $product->name;
+                        $item->price = $product->price;
+                        return $item;
+                    });
+
+                // 2. Total sales for each product (total sold and amount)
+                $totalSalesPerProduct[] = DB::table('orders')
+                    ->select(DB::raw('count(*) as total_sold'), DB::raw('sum(price) as total_amount'))
+                    ->whereRaw('json_contains(product_ids, ?)', [$productId])
+                    ->get()
+                    ->map(function ($item) use ($product) {
+                        $item->name = $product->name;
+                        $item->price = $product->price;
+                        return $item;
+                    });
+            }
         }
     $topSellingLocations = DB::table('orders')
         ->select('delivery_info', DB::raw('count(*) as total'))
