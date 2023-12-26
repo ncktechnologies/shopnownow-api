@@ -115,10 +115,9 @@ class AdminController extends Controller
         ->groupBy('product_id')
         ->get();
 
-    // 3. Top selling delivery locations
     $topSellingLocations = DB::table('orders')
-        ->select('delivery_location', DB::raw('count(*) as total'))
-        ->groupBy('delivery_location')
+        ->select('delivery_info', DB::raw('count(*) as total'))
+        ->groupBy('delivery_info')
         ->orderBy('total', 'desc')
         ->get();
 
