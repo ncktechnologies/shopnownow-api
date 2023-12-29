@@ -210,6 +210,13 @@ class AdminController extends Controller
         return response()->json(['total_revenue' => $totalRevenue]);
     }
 
+    public function index()
+    {
+        $admins = Admin::all();
+
+        return response()->json(['admins' => $admins]);
+    }
+
     public function create(Request $request)
     {
         $data = $request->validate([

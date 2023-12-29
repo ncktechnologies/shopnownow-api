@@ -149,6 +149,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('admin')->group(function () {
+            Route::get('/list', [AdminController::class, 'index']);
             Route::post('/create', [AdminController::class, 'create']);
             Route::delete('/delete/{admin}', [AdminController::class, 'delete']);
         });
