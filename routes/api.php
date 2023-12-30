@@ -180,7 +180,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/create', [ProductController::class, 'create']); // Create a product
             Route::post('/filter', [ProductController::class, 'filterProducts']); // Filter products
             Route::get('show/{product}', [ProductController::class, 'show']); // Get product details
-            Route::put('update/{product}', [ProductController::class, 'update']); // Update product
+            Route::post('update/{product}', [ProductController::class, 'update']); // Update product
             Route::post('toggle/{product}', [ProductController::class, 'toggleAvailability']); // Hide product
 
         });
