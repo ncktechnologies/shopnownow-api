@@ -72,7 +72,7 @@ class CategoryController extends Controller
                 'discount_type' => 'nullable|in:percentage,fixed',
                 'discount_value' => 'nullable|numeric',
                 'thumbnail' => 'nullable|image',
-                'band_id' => 'required|exists:bands,id',
+                'band_id' => 'sometimes|required|exists:bands,id',
                 'order' => 'nullable|integer',
 
             ]);
