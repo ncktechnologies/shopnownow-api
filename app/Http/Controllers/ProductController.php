@@ -106,8 +106,23 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $validatedData = $request->validate([
+                'name' => 'sometimes|required',
+                'price' => 'sometimes|required|numeric',
+                'unit_of_measurement' => 'sometimes|required',
+                'category_id' => 'sometimes|required|exists:categories,id',
+                'thumbnail' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
             $product = Product::findOrFail($id);
-            $product->update($request->all());
+
+            if ($request->hasFile('thumbnail')) {
+                $thumbnail = $request->file('thumbnail');
+                $thumbnailPath = $thumbnail->store('thumbnails', 'public');
+                $validatedData['thumbnail_url'] = asset('storage/' . $thumbnailPath);
+            }
+
+            $product->update($validatedData);
 
             return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
         } catch (\Exception $e) {
