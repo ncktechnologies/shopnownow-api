@@ -12,10 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->get();
+        $products = Product::orderBy('created_at', 'desc')->paginate(50);
         return response()->json($products);
     }
-
     /**
      * Show the form for creating a new resource.
      */
