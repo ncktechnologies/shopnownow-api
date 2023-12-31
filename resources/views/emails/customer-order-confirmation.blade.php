@@ -6,9 +6,9 @@ Order Details: {{ $order->id }}
 Date/Time: {{ $order->created_at }}
 
 Details:
-@foreach($order->products as $product)
+{{-- @foreach($order->products as $product)
 {{ $product->name }} x{{ $product->pivot->quantity }}: N{{ $product->pivot->price }}
-@endforeach
+@endforeach --}}
 
 Total: N{{ $order->total }}
 
