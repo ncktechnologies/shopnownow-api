@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Setting;
+use App\Mail\OrderDetailsMail;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -106,6 +108,11 @@ class PaymentController extends Controller
                 if ($order) {
                     $order->status = 'paid';
                     $order->save();
+
+                    // Send the order details email
+                    // Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
+                    Mail::to(['chuks@protechadvance.com'])
+                    ->send(new OrderDetailsMail($order));
                 }
 
                 // You may choose to send a response with the newly created payment's data
