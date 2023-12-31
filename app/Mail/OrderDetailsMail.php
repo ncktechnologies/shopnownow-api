@@ -11,6 +11,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product; // Import the Product model
 
 class OrderDetailsMail extends Mailable
 {
@@ -18,6 +19,7 @@ class OrderDetailsMail extends Mailable
 
     public $order;
     public $payment;
+    public $productNames; // Add a new property for product names
 
     /**
      * Create a new message instance.
@@ -30,6 +32,11 @@ class OrderDetailsMail extends Mailable
     {
         $this->order = $order;
         $this->payment = $payment;
+
+        // Fetch the product names using the product IDs
+        $this->productNames = Product::whereIn('id', $this->order->product_ids)
+                                     ->pluck('name')
+                                     ->toArray();
     }
 
     /**
@@ -42,7 +49,8 @@ class OrderDetailsMail extends Mailable
         return $this->markdown('emails.order-details')
                     ->with([
                         'order' => $this->order,
-                        'payment' => $this->payment
+                        'payment' => $this->payment,
+                        'productNames' => implode(', ', $this->productNames) // Pass the product names to the view
                     ]);
     }
 }
