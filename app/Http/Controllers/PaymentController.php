@@ -111,7 +111,7 @@ class PaymentController extends Controller
                     $order->save();
 
                     //Send the order confirmation email
-                    Mail::to($order->recipient_emaill)
+                    Mail::to($order->recipient_email)
                         ->send(new CustomerOrderConfirmationMail($order, $payment));
 
                     // Send the order details email
