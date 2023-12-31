@@ -6,8 +6,8 @@
 | ------------- |-------------|
 | Order ID              | {{ $order->id }} |
 | Order Status          | {{ $order->status }} |
-| Product IDs           | {{ implode(', ', $order->product_ids) }} |
-| Quantities            | {{ implode(', ', $order->quantities) }} |
+| Product IDs           | {{ $order->product_ids }} |
+| Quantities            | {{ $order->quantities }} |
 | Delivery Info         | {{ $order->delivery_info }} |
 | Delivery Fee          | {{ $order->delivery_fee }} |
 | Price                 | {{ $order->price }} |
