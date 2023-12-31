@@ -33,8 +33,11 @@ class OrderDetailsMail extends Mailable
         $this->order = $order;
         $this->payment = $payment;
 
+        // Convert product_ids string to array
+        $productIds = explode(',', $this->order->product_ids);
+
         // Fetch the product names using the product IDs
-        $this->productNames = Product::whereIn('id', $this->order->product_ids)
+        $this->productNames = Product::whereIn('id', $productIds)
                                      ->pluck('name')
                                      ->toArray();
     }
