@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Setting;
 use App\Mail\OrderDetailsMail;
+use App\Mail\CustomerOrderConfirmationMail;
 use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
@@ -109,9 +110,12 @@ class PaymentController extends Controller
                     $order->status = 'paid';
                     $order->save();
 
+                    //Send the order confirmation email
+                    Mail::to($order->user->email)
+                        ->send(new CustomerOrderConfirmationMail($order, $payment));
+
                     // Send the order details email
-                    // Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
-                    Mail::to(['chuks@protechadvance.com'])
+                    Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
                     ->send(new OrderDetailsMail($order, $payment));
                 }
 
