@@ -3,9 +3,6 @@
     $quantities = json_decode($order->quantities, true);
     $products = \App\Models\Product::find($productIds);
 @endphp --}}
-@php
-    $deliveryInfo = json_decode($order->delivery_info, true);
-@endphp
 
 @component('mail::message')
 # Your order has been completed successfully.
@@ -21,10 +18,11 @@ Details:
 
 Total: N{{ $order->price }}
 
-Selected Delivery Method: {{ $deliveryInfo['method'] ?? 'Not provided' }}
-Address: {{ $deliveryInfo['address'] ?? 'Not provided' }}
+Selected Delivery Method: {{$order->delivery_info }}
 
-Address: {{ json_decode($order->delivery_info, true)['address'] }}
+Selected Delivery Time: {{ $order->delivery_time_slot }}
+
+Address: {{ $order->delivery_info }}
 
 Customer Details
 
