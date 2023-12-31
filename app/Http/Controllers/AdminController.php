@@ -223,6 +223,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:admins',
             'password' => 'required|string|min:8',
+            'level' => 'required|integer',
         ]);
 
         $data['password'] = Hash::make($data['password']);
