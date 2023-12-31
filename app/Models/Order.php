@@ -29,5 +29,9 @@ class Order extends Model
     ];
 
     // Additional methods and relationships...
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 
