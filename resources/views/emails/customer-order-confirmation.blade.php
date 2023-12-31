@@ -34,7 +34,7 @@ Phone: {{ $order->recipient_phone }}
 
 Your order will be delivered accordingly.
 
-<strong>Enjoy Free Delivery for N25,0000 Orders and above!</strong>
+<strong>Enjoy Free Delivery for N25,000 Orders and above!</strong>
 
 Thank you
 
