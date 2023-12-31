@@ -1,33 +1,38 @@
+@php
+    $productIds = json_decode($order->product_ids, true);
+    $quantities = json_decode($order->quantities, true);
+    $products = \App\Models\Product::find($productIds);
+@endphp
+
 @component('mail::message')
 # Your order has been completed successfully.
 
-Order Details: {{ $order->id }}
+Order Details: {{ $order->order_id }}
 
 Date/Time: {{ $order->created_at }}
 
 Details:
-{{-- @foreach($order->products as $product)
-{{ $product->name }} x{{ $product->pivot->quantity }}: N{{ $product->pivot->price }}
-@endforeach --}}
+@foreach($products as $index => $product)
+    {{ $product->name }} x{{ $quantities[$index] }}: N{{ $product->price * $quantities[$index] }}
+@endforeach
 
-Total: N{{ $order->total }}
+Total: N{{ $order->price }}
 
-Selected Delivery Method: {{ $order->delivery_method }}
+Selected Delivery Method: {{ json_decode($order->delivery_info, true)['method'] }}
 
-Selected Delivery Time: {{ $order->delivery_time }}
+Selected Delivery Time: {{ $order->delivery_time_slot }}
 
-Address: {{ $order->address }}
+Address: {{ json_decode($order->delivery_info, true)['address'] }}
 
 Customer Details
 
-Customer: {{ $order->user->name }}
+Customer: {{ $order->recipient_name }}
 
-Email: {{ $order->user->email }}
+Email: {{ $order->recipient_email }}
 
-Phone: {{ $order->user->phone }}
+Phone: {{ $order->recipient_phone }}
 
 Your order will be delivered accordingly.
-
 
 <strong>Enjoy Free Delivery for N25,0000 Orders and above!</strong>
 
