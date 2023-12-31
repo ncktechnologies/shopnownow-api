@@ -1,8 +1,8 @@
-@php
+{{-- @php
     $productIds = json_decode($order->product_ids, true);
     $quantities = json_decode($order->quantities, true);
     $products = \App\Models\Product::find($productIds);
-@endphp
+@endphp --}}
 
 @component('mail::message')
 # Your order has been completed successfully.
@@ -12,9 +12,9 @@ Order Details: {{ $order->order_id }}
 Date/Time: {{ $order->created_at }}
 
 Details:
-@foreach($products as $index => $product)
+{{-- @foreach($products as $index => $product)
     {{ $product->name }} x{{ $quantities[$index] }}: N{{ $product->price * $quantities[$index] }}
-@endforeach
+@endforeach --}}
 
 Total: N{{ $order->price }}
 
