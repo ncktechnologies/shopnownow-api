@@ -167,14 +167,14 @@ class AdminController extends Controller
     $total['top_selling_products'] = $topSellingProducts;
     $total['total_sales_per_product'] = $totalSalesPerProduct;
     $total['top_selling_locations'] = $topSellingLocations;
-    $total['average_order_value'] = $averageOrderValue;
-    $total['total_revenue_today'] = $totalRevenueToday;
-    $total['total_revenue_this_week'] = $totalRevenueThisWeek;
-    $total['total_revenue_this_month'] = $totalRevenueThisMonth;
-    $total['total_revenue_last_30_days'] = $totalRevenueLast30Days;
-    $total['total_revenue_last_90_days'] = $totalRevenueLast90Days;
-    $total['total_revenue_all_time'] = $totalRevenueAllTime;
-    $total['total_revenue_this_year'] = $totalRevenueThisYear;
+    $total['average_order_value'] = round($averageOrderValue, 2);
+    $total['total_revenue_today'] = round($totalRevenueToday, 2);
+    $total['total_revenue_this_week'] = round($totalRevenueThisWeek, 2);
+    $total['total_revenue_this_month'] = round($totalRevenueThisMonth, 2);
+    $total['total_revenue_last_30_days'] = round($totalRevenueLast30Days, 2);
+    $total['total_revenue_last_90_days'] = round($totalRevenueLast90Days, 2);
+    $total['total_revenue_all_time'] = round($totalRevenueAllTime, 2);
+    $total['total_revenue_this_year'] = round($totalRevenueThisYear, 2);
 
     return response()->json($total);
     }
