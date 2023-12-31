@@ -112,7 +112,7 @@ class PaymentController extends Controller
                     // Send the order details email
                     // Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
                     Mail::to(['chuks@protechadvance.com'])
-                    ->send(new OrderDetailsMail($order));
+                    ->send(new OrderDetailsMail($order, $payment));
                 }
 
                 // You may choose to send a response with the newly created payment's data
