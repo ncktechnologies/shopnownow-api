@@ -25,12 +25,15 @@ class OrderController extends Controller
                 $quantities = json_decode($order->quantities);
 
                 $products = Product::with('category.band')->find($productIds);
+                $totalPrice = 0;
                 foreach ($products as $index => $product) {
                     $product->quantity = $quantities[$index];
                     $product->band = $product->category->band;
                     $product->category = $product->category;
+                    $totalPrice += $product->price * $product->quantity;
                 }
                 $order->products = $products;
+                $order->total_order_price = $totalPrice + $order->delivery_fee + $order->tax;
             }
 
             return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
