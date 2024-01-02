@@ -33,7 +33,7 @@ class OrderController extends Controller
                     $totalPrice += $product->price * $product->quantity;
                 }
                 $order->products = $products;
-                $order->total_order_price = $totalPrice + $order->delivery_fee + $order->tax;
+                $order->total_order_price = (string)($totalPrice + $order->delivery_fee + $order->tax);
             }
 
             return response()->json(['message' => 'Orders retrieved successfully', 'orders' => $orders], 200);
