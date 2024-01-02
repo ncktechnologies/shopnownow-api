@@ -12,7 +12,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(50);
+        $products = Product::orderBy('created_at', 'desc')->paginate(25);
         return response()->json($products);
     }
     /**
