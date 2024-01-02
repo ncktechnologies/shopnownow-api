@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('site_data', function (Blueprint $table) {
             $table->id();
-            $table->text('faq');
+            $table->json('faq')->nullable();
             $table->text('terms_and_conditions');
             $table->text('privacy_policy');
             $table->text('contact_data');

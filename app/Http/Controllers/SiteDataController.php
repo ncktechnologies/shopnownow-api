@@ -17,7 +17,9 @@ class SiteDataController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            'faq' => 'sometimes|required',
+            'faq' => 'sometimes|required|array',
+            'faq.*.question' => 'required|string',
+            'faq.*.answer' => 'required|string',
             'terms_and_conditions' => 'sometimes|required',
             'privacy_policy' => 'sometimes|required',
             'contact_data' => 'sometimes|required',
@@ -31,14 +33,16 @@ class SiteDataController extends Controller
     public function update(Request $request)
     {
         $data = $request->validate([
-            'faq' => 'sometimes|required',
+            'faq' => 'sometimes|required|array',
+            'faq.*.question' => 'sometimes|required|string',
+            'faq.*.answer' => 'sometimes|required|string',
             'terms_and_conditions' => 'sometimes|required',
             'privacy_policy' => 'sometimes|required',
             'contact_data' => 'sometimes|required',
         ]);
 
         $siteData = SiteData::firstOrCreate([], [
-            'faq' => '',
+            'faq' => [],
             'terms_and_conditions' => '',
             'privacy_policy' => '',
             'contact_data' => '',
