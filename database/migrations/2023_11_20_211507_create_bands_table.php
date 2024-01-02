@@ -19,7 +19,7 @@ class CreateBandsTable extends Migration
             $table->string('bulk_discount_amount')->nullable();
             $table->string('general_discount')->nullable();
             $table->boolean('discount_enabled')->default(false);
-            $table->decimal('free_delivery_threshold', 8, 2)->nullable(); // New column
+            $table->integer('free_delivery_threshold')->default(0);
             $table->timestamps();
         });
     }
