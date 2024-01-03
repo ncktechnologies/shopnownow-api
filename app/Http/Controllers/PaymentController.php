@@ -31,7 +31,7 @@ class PaymentController extends Controller
             ]);
 
             $validatedData['amount'] = $validatedData['amount'] / 100;
-            
+
             // Check if a payment with the same order_id already exists
             $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
             if ($existingPayment) {
@@ -191,6 +191,11 @@ class PaymentController extends Controller
         try {
             // Fetch all payments sorted by created_at in descending order
             $payments = Payment::orderBy('created_at', 'desc')->get();
+
+            // Divide the amount by 100 for each payment
+            foreach ($payments as $payment) {
+                $payment->amount = $payment->amount / 100;
+            }
 
             // Return the payments as a JSON response
             return response()->json(['payments' => $payments]);
