@@ -19,9 +19,14 @@ class PaymentController extends Controller
     public function confirmPayment(Request $request)
     {
         try {
+            // Get the user
+            // $user = User::find($validatedData['user_id']);
+            $user = User::find(Auth::id());
+
             // Validate the incoming request data
             $validatedData = $request->validate([
                 // 'user_id' => 'required|integer',
+                'user_id' => $user->id,
                 'amount' => 'required|numeric',
                 'status' => 'required|string',
                 'order_id' => 'required|integer',
@@ -36,9 +41,7 @@ class PaymentController extends Controller
             if ($existingPayment) {
                 return response()->json(['message' => 'A payment for this order has already been processed'], 400);
             }
-            // Get the user
-            // $user = User::find($validatedData['user_id']);
-            $user = User::find(Auth::id());
+
 
             // Check if the user's balance is more than the payment amount
             if ($user->wallet >= $validatedData['amount']) {
