@@ -18,8 +18,8 @@ Order Status: {{$order->status }}
 Date/Time: {{ $order->created_at }}
 
 Details:
-@foreach($products as $index => $product)
-    {{ $product->name }} ({{ $quantities[$index] }})@if(!$loop->last), @endif
+@foreach($products as $product)
+    {{ $product->name }} ({{ $product->quantity }})@if(!$loop->last), @endif
 @endforeach
 
 Total: N{{ $order->price }}
