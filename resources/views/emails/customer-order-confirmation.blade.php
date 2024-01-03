@@ -6,10 +6,14 @@
 
 @component('mail::message')
 
-<h1><strong>Order Receipt</strong></h1>
-# Your order has been completed successfully. Email: support@shopnownow.co
+# <strong>Order Receipt</strong>
+
+
+# Your order has been completed successfully.
+
 
 # Order Details
+
 
 Order ID: {{ $order->order_id }}
 
@@ -21,6 +25,7 @@ Product Names & Quantities :
 @foreach($products as $product)
     {{ $product->name }} ({{ $product->quantity }})@if(!$loop->last), @endif
 @endforeach
+
 
 Delivery Address: {{ $order->delivery_info }}
 
