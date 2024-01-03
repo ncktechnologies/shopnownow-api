@@ -181,7 +181,7 @@ class PaymentController extends Controller
                 'payment_gateway_reference' => 'required|string',
             ]);
 
-            $validatedData['amount'] = $validatedData['amount'] * 100;
+            $validatedData['amount'] = (double) $validatedData['amount'] * 100;
 
             // Check if a payment with the same order_id already exists
             $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
@@ -295,7 +295,7 @@ class PaymentController extends Controller
             ]);
 
 
-            $validatedData['amount'] = $validatedData['amount'] * 100;
+            $validatedData['amount'] = (float) $validatedData['amount'] * 100;
 
             // Check if a payment with the same order_id already exists
             $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
