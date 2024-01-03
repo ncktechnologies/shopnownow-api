@@ -5,16 +5,22 @@
 @endphp --}}
 
 @component('mail::message')
+
+<strong>Order Receipt</strong>
 # Your order has been completed successfully.
 
-Order Details: {{ $order->order_id }}
+Order Details:
+
+Order ID: {{ $order->order_id }}
+
+Order Status: {{$order->status }}
 
 Date/Time: {{ $order->created_at }}
 
 Details:
-{{-- @foreach($products as $index => $product)
-    {{ $product->name }} x{{ $quantities[$index] }}: N{{ $product->price * $quantities[$index] }}
-@endforeach --}}
+@foreach($products as $index => $product)
+    {{ $product->name }} ({{ $quantities[$index] }})@if(!$loop->last), @endif
+@endforeach
 
 Total: N{{ $order->price }}
 
