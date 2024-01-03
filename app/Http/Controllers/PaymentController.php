@@ -295,7 +295,7 @@ class PaymentController extends Controller
             ]);
 
 
-            $validatedData['amount'] = (double) $validatedData['amount'] * 100;
+            // $validatedData['amount'] = (double) $validatedData['amount'] * 100;
 
             // Check if a payment with the same order_id already exists
             $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
