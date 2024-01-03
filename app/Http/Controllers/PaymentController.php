@@ -30,7 +30,7 @@ class PaymentController extends Controller
                 'payment_gateway_reference' => 'required|string',
             ]);
 
-            $validatedData['amount'] = $validatedData['amount'] / 100;
+            // $validatedData['amount'] = $validatedData['amount'] / 100;
 
             // Check if a payment with the same order_id already exists
             $existingPayment = Payment::where('order_id', $validatedData['order_id'])->first();
@@ -193,9 +193,9 @@ class PaymentController extends Controller
             $payments = Payment::orderBy('created_at', 'desc')->get();
 
             // Divide the amount by 100 for each payment
-            foreach ($payments as $payment) {
-                $payment->amount = $payment->amount / 100;
-            }
+            // foreach ($payments as $payment) {
+            //     $payment->amount = $payment->amount / 100;
+            // }
 
             // Return the payments as a JSON response
             return response()->json(['payments' => $payments]);
