@@ -21,7 +21,7 @@ class PaymentController extends Controller
         try {
             // Get the user
             // $user = User::find($validatedData['user_id']);
-            $user = User::find(Auth::id());
+            $user = auth()->user();
 
             // Validate the incoming request data
             $validatedData = $request->validate([
