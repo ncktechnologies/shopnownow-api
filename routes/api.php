@@ -88,9 +88,6 @@ Route::prefix('v1')->group(function () {
                 Route::get('/transactions/{transaction}', [WalletController::class, 'transactionDetails']);
                 Route::post('/convert_points', [WalletController::class, 'convertPoints']);
             });
-
-            Route::post('payment/process', [PaymentController::class, 'confirmPayment']);
-
         });
 
         Route::apiResource('delivery-locations', DeliveryLocationController::class);
@@ -129,6 +126,7 @@ Route::prefix('v1')->group(function () {
 
 
         Route::prefix('payment')->group(function () {
+            Route::post('/process', [PaymentController::class, 'confirmPayment']);
             Route::post('/process-payment-non-auth', [PaymentController::class, 'confirmNonUserPayment']);
             Route::get('/payment/{payment}', [PaymentController::class, 'loadPayment']);
             Route::put('/payment/{payment}', [PaymentController::class, 'update']);
