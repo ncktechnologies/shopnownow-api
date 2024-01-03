@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Mail\OrderDetailsMail;
 use App\Mail\CustomerOrderConfirmationMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -20,7 +21,7 @@ class PaymentController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'user_id' => 'required|integer',
+                // 'user_id' => 'required|integer',
                 'amount' => 'required|numeric',
                 'status' => 'required|string',
                 'order_id' => 'required|integer',
@@ -36,7 +37,8 @@ class PaymentController extends Controller
                 return response()->json(['message' => 'A payment for this order has already been processed'], 400);
             }
             // Get the user
-            $user = User::find($validatedData['user_id']);
+            // $user = User::find($validatedData['user_id']);
+            $user = User::find(Auth::id());
 
             // Check if the user's balance is more than the payment amount
             if ($user->wallet >= $validatedData['amount']) {
