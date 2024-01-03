@@ -25,7 +25,13 @@ class CustomerOrderConfirmationMail extends Mailable
 
         // Fetch the products based on the product_ids in the order
         $productIds = json_decode($order->product_ids);
+        $quantities = json_decode($order->quantities);
+
         $this->products = Product::find($productIds);
+
+        foreach ($this->products as $index => $product) {
+            $product->quantity = $quantities[$index];
+        }
     }
 
     public function build()
