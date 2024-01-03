@@ -6,10 +6,10 @@
 
 @component('mail::message')
 
-<strong>Order Receipt</strong>
-# Your order has been completed successfully.
+<h1><strong>Order Receipt</strong></h1>
+# Your order has been completed successfully. Email: support@shopnownow.co
 
-Order Details:
+# Order Details
 
 Order ID: {{ $order->order_id }}
 
@@ -17,36 +17,46 @@ Order Status: {{$order->status }}
 
 Date/Time: {{ $order->created_at }}
 
-Details:
+Product Names & Quantities :
 @foreach($products as $product)
     {{ $product->name }} ({{ $product->quantity }})@if(!$loop->last), @endif
 @endforeach
 
-Total: N{{ $order->price }}
+Delivery Address: {{ $order->delivery_info }}
 
-Selected Delivery Method: {{$order->delivery_info }}
+Delivery Time Slot: {{ $order->delivery_time_slot }}
 
-Selected Delivery Time: {{ $order->delivery_time_slot }}
+Delivery Date: {{ $order->created_at }}
 
-Address: {{ $order->delivery_info }}
+Scheduled Date: {{ $order->scheduled_date }}
 
-Customer Details
+Recipient Name: {{ $order->recipient_name }}
 
-Customer: {{ $order->recipient_name }}
+Recipient Phone: {{ $order->recipient_phone }}
 
-Email: {{ $order->recipient_email }}
+Recipient Email: {{ $order->recipient_email }}
 
-Phone: {{ $order->recipient_phone }}
+Product Price: N{{ $order->price }}
 
-Your order will be delivered accordingly.
+Tax: N{{ $order->tax }}
 
-<strong>Enjoy Free Delivery for N25,000 Orders and above!</strong>
+Delivery Fee: N{{ $order->delivery_fee }}
+
+Total Price: N{{ $order->price }}
+
+Payment Type: {{ $order->payment_type }}
+
+Coupon Code: {{ $order->coupon_code }}
+
 
 Thank you
 
-ShopNowNow
+<strong>ShopNowNow</strong>
+
+# *Enjoy Free Delivery N25,000 Orders and above!*
+
 
 Email: support@shopnownow.co or visit our contact page
-Disclaimer:
-Information contained in this email is confidential and intended for the addressee only. Any dissemination, distribution, copying or use of this communication without prior permission from the addressee is strictly prohibited. If you are not the intended recipient of this communication, please delete it permanently without copying, disclosing or otherwise using its contents, and notify shopnownow immediately.
+{{-- Disclaimer:
+Information contained in this email is confidential and intended for the addressee only. Any dissemination, distribution, copying or use of this communication without prior permission from the addressee is strictly prohibited. If you are not the intended recipient of this communication, please delete it permanently without copying, disclosing or otherwise using its contents, and notify shopnownow immediately. --}}
 @endcomponent

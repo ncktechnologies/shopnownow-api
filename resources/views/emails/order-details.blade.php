@@ -2,7 +2,7 @@
 # Order Details
 
 @component('mail::table')
-| Order Details | |
+| Customer Order Details | |
 | ------------- |-------------|
 | Order ID              | {{ $order->id }} |
 | Order Status          | {{ $order->status }} |
