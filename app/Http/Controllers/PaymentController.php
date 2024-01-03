@@ -193,9 +193,9 @@ class PaymentController extends Controller
             $payments = Payment::orderBy('created_at', 'desc')->get();
 
             // Divide the amount by 100 for each payment
-            // foreach ($payments as $payment) {
-            //     $payment->amount = $payment->amount / 100;
-            // }
+            foreach ($payments as $payment) {
+                $payment->amount = $payment->amount / 100;
+            }
 
             // Return the payments as a JSON response
             return response()->json(['payments' => $payments]);
