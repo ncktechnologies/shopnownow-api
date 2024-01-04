@@ -19,6 +19,7 @@ class OrderDetailsMail extends Mailable
 
     public $order;
     public $payment;
+    public $products;
     public $productNames; // Add a new property for product names
 
     /**
@@ -33,13 +34,23 @@ class OrderDetailsMail extends Mailable
         $this->order = $order;
         $this->payment = $payment;
 
+        // Fetch the products based on the product_ids in the order
+        $productIds = json_decode($order->product_ids);
+        $quantities = json_decode($order->quantities);
+
+        $this->products = Product::find($productIds);
+
+        foreach ($this->products as $index => $product) {
+            $product->quantity = $quantities[$index];
+        }
+
         // Convert product_ids string to array
         $productIds = explode(',', $this->order->product_ids);
 
         // Fetch the product names using the product IDs
         $this->productNames = Product::whereIn('id', $productIds)
-                                     ->pluck('name')
-                                     ->toArray();
+            ->pluck('name')
+            ->toArray();
     }
 
     /**
@@ -53,6 +64,7 @@ class OrderDetailsMail extends Mailable
                     ->with([
                         'order' => $this->order,
                         'payment' => $this->payment,
+                        'products' => $this->products, // Pass the products to the view
                         'productNames' => implode(', ', $this->productNames) // Pass the product names to the view
                     ]);
     }
