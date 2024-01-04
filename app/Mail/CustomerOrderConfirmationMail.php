@@ -50,6 +50,8 @@ class CustomerOrderConfirmationMail extends Mailable
                         'order' => $this->order,
                         'payment' => $this->payment,
                         'products' => $this->products, // Pass the products to the view
+                        'productNames' => implode(', ', $this->productNames) // Pass the product names to the view
+
                     ]);
     }
 }
