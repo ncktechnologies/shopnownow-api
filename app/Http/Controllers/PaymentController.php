@@ -117,7 +117,7 @@ class PaymentController extends Controller
                         ->send(new CustomerOrderConfirmationMail($order, $payment));
 
                     // Send the order details email
-                    Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
+                    Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com', 'chuks@ncktech.com'])
                     ->send(new OrderDetailsMail($order, $payment));
                 }
 
@@ -268,7 +268,7 @@ class PaymentController extends Controller
                         ->send(new CustomerOrderConfirmationMail($order, $payment));
 
                     // Send the order details email
-                    Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com'])
+                    Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com', 'chuks@ncktech.com'])
                     ->send(new OrderDetailsMail($order, $payment));
                 }
 

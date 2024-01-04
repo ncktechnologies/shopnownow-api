@@ -6,7 +6,9 @@
 | ------------- |-------------|
 | Order ID              | {{ $order->id }} |
 | Order Status          | {{ $order->status }} |
-| Product Names          | {{ implode(', ', $productNames) }} |
+| Product Names          | @foreach($products as $product)
+    {{ $product->name }} ({{ $product->quantity }})@if(!$loop->last), @endif
+@endforeach
 | Quantities            | {{ $order->quantities }} |
 | Delivery Info         | {{ $order->delivery_info }} |
 | Delivery Fee          | {{ $order->delivery_fee }} |

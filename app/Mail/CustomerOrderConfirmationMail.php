@@ -17,6 +17,7 @@ class CustomerOrderConfirmationMail extends Mailable
     public $order;
     public $payment;
     public $products; // Add a new property for the products
+    public $productNames; // Add a new property for product names
 
     public function __construct(Order $order, Payment $payment)
     {
@@ -32,6 +33,14 @@ class CustomerOrderConfirmationMail extends Mailable
         foreach ($this->products as $index => $product) {
             $product->quantity = $quantities[$index];
         }
+
+        // Convert product_ids string to array
+        $productIds = explode(',', $this->order->product_ids);
+
+        // Fetch the product names using the product IDs
+        $this->productNames = Product::whereIn('id', $productIds)
+            ->pluck('name')
+            ->toArray();
     }
 
     public function build()
