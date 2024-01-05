@@ -95,6 +95,7 @@ class ProductController extends Controller
                 ->get()
                 ->map(function ($product) {
                     $product->band_id = $product->category->band_id;
+                    unset($product->category);
                     return $product;
                 });
 
