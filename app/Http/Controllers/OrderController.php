@@ -68,6 +68,15 @@ class OrderController extends Controller
         $productIds = $products->pluck('id');
         $quantities = $products->pluck('quantity');
 
+        // Check if all products are within the same band
+        $bandId = Product::find($productIds[0])->category->band_id;
+        foreach ($productIds as $productId) {
+            $productBandId = Product::find($productId)->category->band_id;
+            if ($productBandId !== $bandId) {
+                return response()->json(['message' => 'All products must be within the same band'], 400);
+            }
+        }
+        
         // Add product IDs and quantities to the validated data
         $validatedData['product_ids'] = json_encode($productIds);
         $validatedData['quantities'] = json_encode($quantities);
