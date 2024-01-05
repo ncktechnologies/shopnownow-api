@@ -11,6 +11,11 @@ class LocationController extends Controller
     {
         return Location::all();
     }
+    
+    public function indexAdmin()
+    {
+        return Location::all();
+    }
 
     public function store(Request $request)
     {

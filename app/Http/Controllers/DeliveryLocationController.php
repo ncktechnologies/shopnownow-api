@@ -56,7 +56,9 @@ class DeliveryLocationController extends Controller
 
     public function getByBandId($band_id)
     {
-        $locations = DeliveryLocation::where('band_id', $band_id)->get();
+        $locations = DeliveryLocation::where('band_id', $band_id)
+                                     ->where('hidden', '!=', true)
+                                     ->get();
         return response()->json(['locations' => $locations], 200);
     }
 }
