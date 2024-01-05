@@ -61,6 +61,7 @@ class ProductController extends Controller
         try {
             $products = Product::where('name', 'LIKE', "%{$query}%")
                 ->where('category_id', $categoryId)
+                ->where('availability', 1)
                 ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
@@ -78,12 +79,11 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where('name', 'LIKE', "%{$query}%")
-                ->where('availability', 1)
-                ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
+            ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
                                    ELSE 3 END, name")
-                ->take(20)
+            ->take(20)
                 ->get();
 
             return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
