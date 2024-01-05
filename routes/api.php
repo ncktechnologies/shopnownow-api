@@ -183,6 +183,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/filter', [ProductController::class, 'filterProducts']); // Filter products
             Route::get('show/{product}', [ProductController::class, 'show']); // Get product details
             Route::post('update/{product}', [ProductController::class, 'update']); // Update product
+            Route::get('/search/{query}', [ProductController::class, 'search']);
             Route::post('toggle/{product}', [ProductController::class, 'toggleAvailability']); // Hide product
 
         });
