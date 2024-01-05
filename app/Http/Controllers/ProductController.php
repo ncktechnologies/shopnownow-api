@@ -62,12 +62,17 @@ class ProductController extends Controller
             $products = Product::where('name', 'LIKE', "%{$query}%")
                 ->where('category_id', $categoryId)
                 ->where('availability', 1)
+                ->with('category')
                 ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
                                    ELSE 3 END, name")
                 ->take(20)
-                ->get();
+                ->get()
+                ->map(function ($product) {
+                    $product->band_id = $product->category->band_id;
+                    return $product;
+                });
 
             return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
         } catch (\Exception $e) {
@@ -79,12 +84,18 @@ class ProductController extends Controller
     {
         try {
             $products = Product::where('name', 'LIKE', "%{$query}%")
-            ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
+                ->where('availability', 1)
+                ->with('category')
+                ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
                                    ELSE 3 END, name")
-            ->take(20)
-                ->get();
+                ->take(20)
+                ->get()
+                ->map(function ($product) {
+                    $product->band_id = $product->category->band_id;
+                    return $product;
+                });
 
             return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
         } catch (\Exception $e) {
