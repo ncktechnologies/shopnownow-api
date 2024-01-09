@@ -77,7 +77,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('/place_order/{list_id}', [OrderController::class, 'place']);
                 Route::get('/list/{list_id}', [ShoppingListController::class, 'show']);
                 Route::get('/lists', [ShoppingListController::class, 'index']);
-                Route::delete('/delete/{list_id}', [ShoppingListController::class, 'destroy']);
+                Route::delete('/delete/{list_id}', [ShoppingListController::class, 'delete']);
             });
 
             Route::prefix('wallet')->group(function () {
