@@ -18,7 +18,9 @@ class DeliveryTimeSlotController extends Controller
         $bandId = $request->get('band_id');
         $timeSlots = DeliveryTimeSlot::when($bandId, function ($query, $bandId) {
             return $query->where('band_id', $bandId);
-        })->get();
+        })
+        ->where('is_available', 1)
+        ->get();
 
         return response()->json(['timeSlots' => $timeSlots]);
     }
@@ -30,7 +32,9 @@ class DeliveryTimeSlotController extends Controller
         ]);
 
         $bandId = $request->get('band_id');
-        $timeSlots = DeliveryTimeSlot::where('band_id', $bandId)->get();
+        $timeSlots = DeliveryTimeSlot::where('band_id', $bandId)
+            ->where('is_available', 1)
+            ->get();
 
         return response()->json(['timeSlots' => $timeSlots]);
     }
