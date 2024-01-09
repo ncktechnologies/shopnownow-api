@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Arr;
 use Exception;
 
 class CategoryController extends Controller
@@ -74,7 +75,6 @@ class CategoryController extends Controller
                 'thumbnail' => 'sometimes|nullable|image',
                 'band_id' => 'sometimes|required|exists:bands,id',
                 'order' => 'nullable|integer',
-
             ]);
 
             $data = $request->all();
@@ -82,6 +82,8 @@ class CategoryController extends Controller
             if ($request->hasFile('thumbnail')) {
                 $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
                 $data['thumbnail'] = asset('storage/' . $thumbnailPath);
+            } else {
+                $data = Arr::except($data, ['thumbnail']);
             }
 
             $category = Category::findOrFail($categoryId);
