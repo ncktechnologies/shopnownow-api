@@ -41,7 +41,7 @@ class CategoryController extends Controller
             'delivery_option' => 'required|boolean',
             'discount_option' => 'required|boolean',
             'discount_type' => 'nullable|in:percentage,fixed',
-            'discount_value' => 'nullable|numeric',
+            'discount_value' => 'numeric',
             'thumbnail' => 'nullable|image',
             'band_id' => 'required|exists:bands,id', // Add this line
             'order' => 'nullable|integer',
@@ -71,7 +71,7 @@ class CategoryController extends Controller
                 'delivery_option' => 'sometimes|required|boolean',
                 'discount_option' => 'sometimes|required|boolean',
                 'discount_type' => 'nullable|in:percentage,fixed',
-                'discount_value' => 'nullable|numeric',
+                'discount_value' => 'numeric',
                 'thumbnail' => 'sometimes|nullable|image',
                 'band_id' => 'sometimes|required|exists:bands,id',
                 'order' => 'nullable|integer',

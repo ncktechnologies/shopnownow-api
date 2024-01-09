@@ -17,8 +17,8 @@ return new class extends Migration
             $table->decimal('tax', 8, 2);
             $table->boolean('delivery_option');
             $table->boolean('discount_option');
-            $table->enum('discount_type', ['percentage', 'fixed'])->nullable();
-            $table->decimal('discount_value', 8, 2)->nullable();
+            $table->enum('discount_type', ['percentage', 'fixed'])->default('percentage');
+            $table->decimal('discount_value', 8, 2)->default(0.00);
             $table->string('thumbnail')->nullable();
             $table->boolean('hidden')->default(false);
             $table->unsignedBigInteger('band_id'); // Add the band_id column
