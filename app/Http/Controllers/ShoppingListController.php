@@ -116,4 +116,21 @@ class ShoppingListController extends Controller
         }
     }
 
+    public function delete($list_id)
+    {
+        try {
+            $shoppingList = ShoppingList::findOrFail($list_id);
+
+            if (Auth::id() !== $shoppingList->user_id) {
+                return response()->json(['message' => 'Unauthorized'], 401);
+            }
+
+            $shoppingList->delete();
+
+            return response()->json(['message' => 'Shopping list deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while deleting the shopping list', 'error' => $e->getMessage()], 500);
+        }
+    }
+
 }
