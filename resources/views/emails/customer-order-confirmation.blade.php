@@ -41,7 +41,7 @@ Tax: N{{ $order->tax }}
 
 Delivery Fee: N{{ $order->delivery_fee }}
 
-Total Price: N{{ $order->price }}
+Total Price: N{{ $order->price + $order->tax + $order->delivery_fee }}
 
 Payment Type: {{ $order->payment_type }}
 
