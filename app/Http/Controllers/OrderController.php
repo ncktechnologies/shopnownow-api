@@ -94,8 +94,8 @@ class OrderController extends Controller
             // Find the band associated with the category
             $band = Band::find($category->band_id);
 
-            // Check if the total price of the order is greater than or equal to the band's minimum
-            if ($validatedData['price'] < $band->minimum) {
+            // Check if a discount is not applied and the total price of the order is less than the band's minimum
+            if (!$validatedData['discount_applied'] && $validatedData['price'] < $band->minimum) {
                 return response()->json(['message' => 'The total price of the order must be greater than or equal to ' . $band->minimum], 400);
             }
 
