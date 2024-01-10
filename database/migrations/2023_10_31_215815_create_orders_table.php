@@ -28,7 +28,8 @@ return new class extends Migration
             $table->string('status');
             $table->unsignedBigInteger('user_id')->nullable(); // User ID (optional)
             $table->string('coupon_code')->nullable(); // Coupon code (optional)
-            $table->date('scheduled_date')->nullable(); // Scheduled date (optional)`
+            $table->date('scheduled_date')->nullable(); // Scheduled date (optional)
+            $table->boolean('discount_applied')->default(false); // Discount applied (boolean)
             $table->timestamps();
         });
     }

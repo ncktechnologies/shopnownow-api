@@ -61,6 +61,7 @@ class OrderController extends Controller
             'delivery_time_slot' => 'required|string',
             'coupon_code' => 'string',
             'scheduled_date' => 'date',
+            'discount_applied' => 'boolean',
         ]);
 
         // Extract product IDs and quantities from the products array
@@ -76,7 +77,7 @@ class OrderController extends Controller
                 return response()->json(['message' => 'All products must be within the same band'], 400);
             }
         }
-        
+
         // Add product IDs and quantities to the validated data
         $validatedData['product_ids'] = json_encode($productIds);
         $validatedData['quantities'] = json_encode($quantities);

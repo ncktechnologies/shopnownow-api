@@ -16,7 +16,7 @@ class CreateBandsTable extends Migration
             $table->text('description')->nullable();
             $table->string('minimum')->nullable();
             $table->string('bulk_discount_percentage')->nullable();
-            $table->string('bulk_discount_amount')->nullable();
+            $table->string('bulk_discount_amount')->default("0");
             $table->string('general_discount')->nullable();
             $table->boolean('discount_enabled')->default(false);
             $table->integer('free_delivery_threshold')->default(0);
