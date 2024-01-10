@@ -23,7 +23,7 @@ class BandController extends Controller
             'bulk_discount_amount' => 'nullable',
             'general_discount' => 'nullable',
             'discount_enabled' => 'nullable',
-            'free_delivery_threshold' => 'nullable', // New line
+            'free_delivery_threshold' => 'required|gt:0', // Modified line
         ]);
 
         $band = Band::create($request->all());
@@ -46,7 +46,7 @@ class BandController extends Controller
             'bulk_discount_amount' => 'nullable',
             'general_discount' => 'nullable',
             'discount_enabled' => 'nullable',
-            'free_delivery_threshold' => 'nullable', // New line
+            'free_delivery_threshold' => 'sometimes|required', // New line
         ]);
 
         $band->update($request->all());
