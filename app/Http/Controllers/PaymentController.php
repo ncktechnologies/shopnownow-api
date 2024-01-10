@@ -74,6 +74,14 @@ class PaymentController extends Controller
                     $order->save();
                 }
 
+                //Send the order confirmation email
+                Mail::to($order->recipient_email)
+                    ->send(new CustomerOrderConfirmationMail($order, $payment));
+
+                // Send the order details email
+                Mail::to(['shopnownow.co@gmail.com', 'shopnownowsales@gmail.com', 'chuks@ncktech.com'])
+                ->send(new OrderDetailsMail($order, $payment));
+
                 return response()->json(['message' => 'Payment confirmed successfully', 'payment' => $payment], 201);
             } else {
                 if ($user->wallet > 0) {
