@@ -2,8 +2,8 @@
     $productIds = json_decode($order->product_ids, true);
     $quantities = json_decode($order->quantities, true);
     $products = \App\Models\Product::find($productIds);
+    $totalPrice = $order->price + $order->delivery_fee + $order->tax; // Added line
 @endphp --}}
-
 @component('mail::message')
 
 # <strong>Order Receipt</strong>
@@ -47,7 +47,7 @@ Tax: N{{ $order->tax }}
 
 Delivery Fee: N{{ $order->delivery_fee }}
 
-Total Price: N{{ $order->price }}
+Total Price: N{{ $totalPrice }}
 
 Payment Type: {{ $order->payment_type }}
 
