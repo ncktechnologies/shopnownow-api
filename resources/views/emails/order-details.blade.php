@@ -22,14 +22,15 @@
 | Delivery Time Slot    | {{ $order->delivery_time_slot }} |
 | Coupon Code           | {{ $order->coupon_code }} |
 | Scheduled Date        | {{ $order->scheduled_date }} |
+| Total Amount          | {{ $order->price + $order->delivery_fee + $order->tax }} |
 | ...                   | ... |  <!-- Add more order details here -->
 
 | Payment Details | |
 | --------------- |-------------|
 | Payment ID                  | {{ $payment->id }} |
 | Payment Amount              | {{ $payment->amount }} |
-| Total Amount                | {{ $order->total_amount }} |
-| Payment Method              | {{ $payment->payment_method }} |
+| Total Amount                | {{ $order->price + $order->delivery_fee + $order->tax }} |
+| Payment Method              | {{ $payment->payment_type }} |
 | User ID                     | {{ $payment->user_id }} |
 | Status                      | {{ $payment->status }} |
 | Order ID                    | {{ $payment->order_id }} |
