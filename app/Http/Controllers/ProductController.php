@@ -59,21 +59,27 @@ class ProductController extends Controller
     public function searchByCategory($query, $categoryId)
     {
         try {
-            $products = Product::where('name', 'LIKE', "%{$query}%")
-                ->where('category_id', $categoryId)
-                ->where('availability', 1)
-                ->with('category')
-                ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
-                                   WHEN name LIKE '{$query}%' THEN 1
-                                   WHEN name LIKE '%{$query}' THEN 2
-                                   ELSE 3 END, name")
-                ->take(20)
-                ->get()
-                ->map(function ($product) {
-                    $product->band_id = $product->category->band_id;
-                    unset($product->category);
-                    return $product;
-                });
+            $queryParts = explode(' ', $query);
+
+            $products = Product::where(function ($q) use ($queryParts) {
+                foreach ($queryParts as $part) {
+                    $q->where('name', 'LIKE', "%{$part}%");
+                }
+            })
+            ->where('category_id', $categoryId)
+            ->where('availability', 1)
+            ->with('category')
+            ->orderByRaw("CASE WHEN name LIKE '{$query}' THEN 0
+                               WHEN name LIKE '{$query}%' THEN 1
+                               WHEN name LIKE '%{$query}' THEN 2
+                               ELSE 3 END, name")
+            ->take(100)
+            ->get()
+            ->map(function ($product) {
+                $product->band_id = $product->category->band_id;
+                unset($product->category);
+                return $product;
+            });
 
             return response()->json(['message' => 'Products retrieved successfully', 'products' => $products], 200);
         } catch (\Exception $e) {
@@ -91,7 +97,7 @@ class ProductController extends Controller
                                    WHEN name LIKE '{$query}%' THEN 1
                                    WHEN name LIKE '%{$query}' THEN 2
                                    ELSE 3 END, name")
-                ->take(20)
+                ->take(100)
                 ->get()
                 ->map(function ($product) {
                     $product->band_id = $product->category->band_id;
